@@ -1,4 +1,4 @@
-SOEN 342 section II
+SOEN 342 section II Fall 2024
 
 Project teammates are
 
