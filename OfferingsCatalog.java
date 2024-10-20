@@ -10,8 +10,12 @@ public class OfferingsCatalog {
         this.timeslotCatalog = timeslotCatalog;
     }
 
-    public void makeOffering(String activity, Timeslot timeslot, Space space, String id) {
+    public void makeOffering(String activity, Timeslot timeslot, Space space, String id, boolean isPublic) {
         Offering newOffering = new Offering(activity, timeslot, space,id );
+
+        if (isPublic) {
+            newOffering.makeOfferingPublic();
+        }
 
         if (!spaceCatalog.spaceExists(space.getAddress())) {
             System.out.println("Error: Space does not exist in the catalog.");
@@ -57,6 +61,10 @@ public class OfferingsCatalog {
             " " + offering.getTimeslot().getEndDate() + " to " + 
             offering.getTimeslot().getEndDate() + "Time: " + offering.getTimeslot().getStartTime()+ "until "+ offering.getTimeslot().getEndTime());
         }
+    }
+
+    public ArrayList<Offering> getOfferings() {
+        return offerings;
     }
 
 }

@@ -34,12 +34,15 @@ public class Admin {
         System.out.print("Enter offering ID: ");
         String id = scanner.nextLine();
 
+        System.out.print("Is this offering public? (yes/no): ");
+        boolean isPublic = scanner.nextLine().trim().equalsIgnoreCase("yes");
+
         Space space = new Space(address,type);
 
         Timeslot timeslot = new Timeslot(startTime,endTime, startDate, endDate, space); // Adjust as needed
 
         // Create the offering
-        offeringsCatalog.makeOffering(activity, timeslot, space, id);
+        offeringsCatalog.makeOffering(activity, timeslot, space, id,isPublic);
 
     }
 
