@@ -6,7 +6,7 @@ class Booking {
     private Timeslot timeslot;
     private Offering offering;
     private Client client;  
-     private String status;  // e.g., "confirmed", "canceled"
+    private String status;  // e.g., "confirmed", "canceled"
 
     // Constructor
     public Booking(String id, Date date, Timeslot timeslot, Offering offering, Client client, String status) {
