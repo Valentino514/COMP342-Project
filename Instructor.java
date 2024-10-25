@@ -10,7 +10,7 @@ public class Instructor {
         this.name=n;
         this.phoneNumber =p;
         this.specialization=s;
-        this.assignedOfferings = new ArrayList<>();
+        this.assignedOfferings =  new ArrayList<>();
     }
 
     public String getName() {

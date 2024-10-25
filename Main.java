@@ -4,8 +4,8 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        SpaceCatalog spaceCatalog = new SpaceCatalog(); // Create space catalog
-        TimeslotCatalog timeslotCatalog = new TimeslotCatalog(); // Create timeslot catalog
+        SpaceCatalog spaceCatalog = new SpaceCatalog(); //create catalog of spaces 
+        TimeslotCatalog timeslotCatalog = new TimeslotCatalog();//create new timeslot catalog
         OfferingsCatalog offeringsCatalog = new OfferingsCatalog(spaceCatalog, timeslotCatalog);
 
         //temp values for testing
@@ -23,7 +23,7 @@ public class Main {
         String response = scanner.nextLine().trim().toLowerCase();
 
         if (response.equals("yes")) {
-            Admin admin = new Admin(); // Create an instance of Admin
+            Admin admin = new Admin();//create an instance of Admin if user is an admin
             boolean running = true;
 
             while (running) {
@@ -33,8 +33,7 @@ public class Main {
                 System.out.println("3. Exit");
                 System.out.print("Choose an option: ");
                 int choice = scanner.nextInt();
-                scanner.nextLine(); // Consume the newline character
-
+                scanner.nextLine(); //check next input
                 switch (choice) {
                     case 1:
                         admin.createOffering(offeringsCatalog);
@@ -58,7 +57,7 @@ public class Main {
                 System.out.println("2. Exit");
                 System.out.print("Choose an option: ");
                 int choice = scanner.nextInt();
-                scanner.nextLine(); // Consume the newline character
+                scanner.nextLine();//check next input
 
                 switch (choice) {
                     case 1:
