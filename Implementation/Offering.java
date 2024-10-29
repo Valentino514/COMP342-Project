@@ -1,9 +1,13 @@
+import java.util.ArrayList;
+import java.util.List;
+
 class Offering {
     private String activity;
     private Timeslot timeslot;
     private Space space;
     private String id;
     private boolean isPublic = false;
+    private List<Booking> bookings;
 
 
     // Constructor
@@ -13,6 +17,7 @@ class Offering {
         this.space = space;
         this.id = id;
         this.isPublic = false;
+        this.bookings = new ArrayList<>();
     }
 
     //Getters for space and timeslot
@@ -38,5 +43,13 @@ class Offering {
 
     public void makeOfferingPublic(){
         isPublic =true;
+    }
+
+    public void addBooking(Booking booking) {
+        bookings.add(booking);
+    }
+    
+    public List<Booking> getBookings() {
+        return bookings;
     }
 }
