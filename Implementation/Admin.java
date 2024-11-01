@@ -1,9 +1,14 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Admin extends User {
 
+    private List<Offering> createdOfferings;
+
     public Admin(String name, String password) {
         super(name, password);
+        this.createdOfferings = new ArrayList<>();
     }
 
     // Method to create a new offering
@@ -49,6 +54,10 @@ public class Admin extends User {
 
     }
 
+    public List<Offering> getCreatedOfferings() {
+        return createdOfferings;
+    }
+    
     public void deleteAccount() {
         
     }
