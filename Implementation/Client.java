@@ -1,21 +1,18 @@
 import java.util.ArrayList;
 import java.util.List;
 
-class Client {
+class Client extends User{
     private String id;
     private String name;
     private String contactInfo;
-    private boolean isUnderage;
-    private Client legalGuardian;  // if the client is underage
-    private List<Booking> bookings;  // a client can have multiple bookings
+    private List<Booking> bookings; 
 
     // Constructor
-    public Client(String id, String name, String contactInfo, boolean isUnderage, Client legalGuardian) {
+    public Client(String id, String name, String contactInfo, String password) {
+        super(name, password);
         this.id = id;
         this.name = name;
         this.contactInfo = contactInfo;
-        this.isUnderage = isUnderage;
-        this.legalGuardian = legalGuardian;
         this.bookings = new ArrayList<>(); // Initialize empty bookings list
     }
 
@@ -32,14 +29,6 @@ class Client {
         return contactInfo;
     }
 
-    public boolean isUnderage() {
-        return isUnderage;
-    }
-
-    public Client getLegalGuardian() {
-        return legalGuardian;
-    }
-
     public List<Booking> getBookings() {
         return bookings;
     }
@@ -47,5 +36,6 @@ class Client {
     // Add a booking
     public void addBooking(Booking booking) {
         bookings.add(booking);
+        booking.addClient(this);
     }
 }

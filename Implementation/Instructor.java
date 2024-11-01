@@ -1,16 +1,18 @@
 import java.util.ArrayList;
 
-public class Instructor {
+public class Instructor extends User {
     private String specialization;
     private String name;
     private String phoneNumber;
     private ArrayList<Offering> assignedOfferings;
+    private Organization organization;
 
-    public Instructor(String s, String n, String p){
-        this.name=n;
+    public Instructor(String s, String n, String p, String password, Organization organization){
+        super(n,password);
         this.phoneNumber =p;
         this.specialization=s;
         this.assignedOfferings =  new ArrayList<>();
+        this.organization = organization;
     }
 
     public String getName() {
@@ -70,6 +72,14 @@ public class Instructor {
     
     public void registerAvailability(String city, String availabilityDetails) {
         System.out.println(name + " has registered availability in " + city + ": " + availabilityDetails);
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
 
 }

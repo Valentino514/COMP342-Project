@@ -1,8 +1,9 @@
 import java.util.Scanner;
 
-public class Admin {
+public class Admin extends User {
 
-    public Admin() {
+    public Admin(String name, String password) {
+        super(name, password);
     }
 
     // Method to create a new offering
@@ -43,6 +44,8 @@ public class Admin {
 
         // Create the offering
         offeringsCatalog.makeOffering(activity, timeslot, space, id,isPublic);
+
+        scanner.close();
 
     }
 
