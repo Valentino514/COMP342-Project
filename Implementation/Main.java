@@ -4,9 +4,11 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        SpaceCatalog spaceCatalog = new SpaceCatalog(); //create catalog of spaces 
-        TimeslotCatalog timeslotCatalog = new TimeslotCatalog();//create new timeslot catalog
+        SpaceCatalog spaceCatalog = new SpaceCatalog();
+        TimeslotCatalog timeslotCatalog = new TimeslotCatalog();
         OfferingsCatalog offeringsCatalog = new OfferingsCatalog(spaceCatalog, timeslotCatalog);
+        UserCatalog userCatalog= new UserCatalog();
+        OrganizationCatalog organizationCatalog= new OrganizationCatalog();
 
         //temp values for testing
         Space space1 = new OwnedSpace("36 Concordia", "pool");
@@ -23,7 +25,14 @@ public class Main {
         String response = scanner.nextLine().trim().toLowerCase();
 
         if (response.equals("yes")) {
-            Admin admin = new Admin();//create an instance of Admin if user is an admin
+
+            System.out.print("Username:");
+            String name= scanner.nextLine();
+
+            System.out.print("password:");
+            String password= scanner.nextLine();
+
+            Admin admin = new Admin(name,password);
             boolean running = true;
 
             while (running) {
@@ -36,7 +45,7 @@ public class Main {
                 scanner.nextLine(); //check next input
                 switch (choice) {
                     case 1:
-                        admin.createOffering(offeringsCatalog);
+                        admin.createLesson(offeringsCatalog);
                         break;
                     case 2:
                         offeringsCatalog.viewAllOfferings();

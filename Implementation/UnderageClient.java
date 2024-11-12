@@ -23,7 +23,7 @@ public class UnderageClient extends Client {
     }
 
     @Override
-    public void addBooking(Booking booking) {
+    public void addBooking(Offering booking) {
         super.addBooking(booking);
     }
 

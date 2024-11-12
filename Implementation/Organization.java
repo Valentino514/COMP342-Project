@@ -4,11 +4,13 @@ public class Organization {
     private String name;
     private String address;
     private ArrayList<Instructor> instructors;
+    private ArrayList<Admin> admins;
 
     public Organization(String name, String address) {
         this.name = name;
         this.address = address;
         this.instructors = new ArrayList<>();
+        this.admins = new ArrayList<>();
     }
 
     public String getName() {
@@ -39,6 +41,26 @@ public class Organization {
         System.out.println("Instructors in " + name + ":");
         for (Instructor instructor : instructors) {
             System.out.println("- " + instructor.getName() + " (Specialization: " + instructor.getSpecialization() + ")");
+        }
+    }
+
+    public void addAdmin(Admin admin) {
+        admins.add(admin);
+        System.out.println(admin.getName() + " has been added as an admin in " + name + ".");
+    }
+
+    public void removeAdmin(Admin admin) {
+        if (admins.remove(admin)) {
+            System.out.println(admin.getName() + " has been removed from " + name + ".");
+        } else {
+            System.out.println(admin.getName() + " is not found in " + name + ".");
+        }
+    }
+
+    public void viewAdmins() {
+        System.out.println("Admins in " + name + ":");
+        for (Admin admin : admins) {
+            System.out.println("- " + admin.getName());
         }
     }
 }
