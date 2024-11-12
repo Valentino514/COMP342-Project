@@ -4,7 +4,7 @@ public class Instructor extends User {
     private String specialization;
     private String name;
     private String phoneNumber;
-    private ArrayList<Offering> assignedOfferings;
+    private ArrayList<Lesson> assignedOfferings;
     private Organization organization;
 
     public Instructor(String s, String n, String p, String password, Organization organization){
@@ -37,7 +37,7 @@ public class Instructor extends User {
 
     public void viewOpenOfferings(OfferingsCatalog offeringsCatalog) {
         System.out.println("Open Offerings for " + name + ":");
-        for (Offering offering : offeringsCatalog.getOfferings()) {
+        for (Lesson offering : offeringsCatalog.getOfferings()) {
             if (offering.getIsPublic() && offering.getActivity().equals(specialization)) {
                 System.out.println("ID: " + offering.getId() + ", Activity: " + offering.getActivity() +
                                    ", Space: " + offering.getSpace().getAddress() +
@@ -48,7 +48,7 @@ public class Instructor extends User {
     }
 
     // Method to select an offering
-    public void selectOffering(Offering offering) {
+    public void selectOffering(Lesson offering) {
         if (offering.getIsPublic() && offering.getActivity().equals(specialization)) {
             assignedOfferings.add(offering);
             System.out.println(name + " has selected the offering: " + offering.getId());
@@ -61,7 +61,7 @@ public class Instructor extends User {
     // Method to view assigned offerings
     public void viewAssignedOfferings() {
         System.out.println(name + "'s Assigned Offerings:");
-        for (Offering offering : assignedOfferings) {
+        for (Lesson offering : assignedOfferings) {
             System.out.println("ID: " + offering.getId() + ", Activity: " + offering.getActivity() +
                                ", Space: " + offering.getSpace().getAddress() +
                                ", Time: " + offering.getTimeslot().getStartTime() + " - " +

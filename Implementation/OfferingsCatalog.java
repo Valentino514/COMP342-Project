@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class OfferingsCatalog {
-    private ArrayList<Offering> offerings = new ArrayList<>();
+    private ArrayList<Lesson> offerings = new ArrayList<>();
     private SpaceCatalog spaceCatalog;
     private TimeslotCatalog timeslotCatalog;
 
@@ -11,7 +11,7 @@ public class OfferingsCatalog {
     }
 
     public void makeOffering(String activity, Timeslot timeslot, Space space, String id, boolean isPublic) {
-        Offering newOffering = new Offering(activity, timeslot, space,id );
+        Lesson newOffering = new Lesson(activity, timeslot, space,id );
 
         if (isPublic) {
             newOffering.makeOfferingPublic();
@@ -36,7 +36,7 @@ public class OfferingsCatalog {
         System.out.println("Public Offerings:");
         boolean hasPublicOfferings = false;
 
-        for (Offering offering : offerings) {
+        for (Lesson offering : offerings) {
             if (offering.getIsPublic()) {
                 System.out.println("ID: " + offering.getId() + ", Activity: " + offering.getActivity() + 
                                    ", Space: " + offering.getSpace().getAddress() +
@@ -54,7 +54,7 @@ public class OfferingsCatalog {
 
     public void viewAllOfferings() {
         System.out.println("Offerings:");
-        for (Offering offering : offerings) {
+        for (Lesson offering : offerings) {
             System.out.println("ID: " + offering.getId() + ", Activity: " + offering.getActivity() + 
             ", Space: " + offering.getSpace().getAddress() +
             ", Date: " + offering.getTimeslot().getStartDate() + 
@@ -63,7 +63,7 @@ public class OfferingsCatalog {
         }
     }
 
-    public ArrayList<Offering> getOfferings() {
+    public ArrayList<Lesson> getOfferings() {
         return offerings;
     }
 

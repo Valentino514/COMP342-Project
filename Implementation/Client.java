@@ -5,7 +5,7 @@ class Client extends User{
     private String id;
     private String name;
     private String contactInfo;
-    private List<Booking> bookings; 
+    private List<Offering> bookings; 
 
     // Constructor
     public Client(String id, String name, String contactInfo, String password) {
@@ -29,12 +29,12 @@ class Client extends User{
         return contactInfo;
     }
 
-    public List<Booking> getBookings() {
+    public List<Offering> getBookings() {
         return bookings;
     }
 
     // Add a booking
-    public void addBooking(Booking booking) {
+    public void addBooking(Offering booking) {
         bookings.add(booking);
         booking.addClient(this);
     }
