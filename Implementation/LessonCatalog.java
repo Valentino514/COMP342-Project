@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-class LessonCatalog {
+public class LessonCatalog {
     private List<Lesson> lessons;
 
     // Constructor
@@ -13,6 +13,19 @@ class LessonCatalog {
     public void addLesson(Lesson lesson) {
         if (!lessons.contains(lesson)) {
             lessons.add(lesson);
+        } else {
+            System.out.println("Lesson with ID " + lesson.getId() + " already exists.");
+        }
+    }
+
+    // Remove a lesson from the catalog by ID
+    public void removeLessonById(String lessonId) {
+        Lesson lessonToRemove = findLessonById(lessonId);
+        if (lessonToRemove != null) {
+            lessons.remove(lessonToRemove);
+            System.out.println("Lesson with ID " + lessonId + " removed.");
+        } else {
+            System.out.println("Lesson with ID " + lessonId + " not found.");
         }
     }
 
@@ -29,6 +42,33 @@ class LessonCatalog {
     // Get all lessons in the catalog
     public List<Lesson> getAllLessons() {
         return new ArrayList<>(lessons);
+    }
+
+    // Get all public lessons (lessons with isPublic set to true)
+    public List<Lesson> getPublicLessons() {
+        List<Lesson> publicLessons = new ArrayList<>();
+        for (Lesson lesson : lessons) {
+            if (lesson.getIsPublic()) {
+                publicLessons.add(lesson);
+            }
+        }
+        return publicLessons;
+    }
+
+    // Get all lessons for a specific activity (e.g., Yoga, Swimming)
+    public List<Lesson> getLessonsByActivity(String activity) {
+        List<Lesson> filteredLessons = new ArrayList<>();
+        for (Lesson lesson : lessons) {
+            if (lesson.getActivity().equalsIgnoreCase(activity)) {
+                filteredLessons.add(lesson);
+            }
+        }
+        return filteredLessons;
+    }
+
+    // Get the number of lessons in the catalog
+    public int getLessonCount() {
+        return lessons.size();
     }
 
     @Override

@@ -1,48 +1,59 @@
 import java.util.ArrayList;
+import java.util.Date;
 
 public class OfferingsCatalog {
-    private ArrayList<Lesson> offerings = new ArrayList<>();
+    private ArrayList<Offering> offerings = new ArrayList<>();
     private SpaceCatalog spaceCatalog;
     private TimeslotCatalog timeslotCatalog;
 
+    // Constructor: Accepts SpaceCatalog and TimeslotCatalog to check space and timeslot availability
     public OfferingsCatalog(SpaceCatalog spaceCatalog, TimeslotCatalog timeslotCatalog) {
         this.spaceCatalog = spaceCatalog;
         this.timeslotCatalog = timeslotCatalog;
     }
 
+    // Method to create a new offering
     public void makeOffering(String activity, Timeslot timeslot, Space space, String id, boolean isPublic) {
-        Lesson newOffering = new Lesson(activity, timeslot, space,id );
+        // Create a new Offering object
+        Offering newOffering = new Offering(new Lesson(activity, timeslot, space, id), id, new Date(), timeslot, "Available");
 
+        // Make the offering public if needed
         if (isPublic) {
-            newOffering.makeOfferingPublic();
+            newOffering.getLesson().makeOfferingPublic();
         }
 
+        // Check if space exists in the SpaceCatalog
         if (!spaceCatalog.spaceExists(space.getAddress())) {
             System.out.println("Error: Space does not exist in the catalog.");
             return;
-
         }
 
-        if(timeslotCatalog.timeslotExists(timeslot)){
-            System.out.println("time slot already booked");
+        // Check if the timeslot is already booked
+        if (timeslotCatalog.timeslotExists(timeslot)) {
+            System.out.println("Error: Timeslot is already booked.");
             return;
         }
 
+        // Add the new offering to the catalog
         offerings.add(newOffering);
-        System.out.println("offering created successfully");
+        System.out.println("Offering created successfully.");
     }
 
+    // Method to view all public offerings
     public void viewPublicOfferings() {
         System.out.println("Public Offerings:");
         boolean hasPublicOfferings = false;
 
-        for (Lesson offering : offerings) {
-            if (offering.getIsPublic()) {
-                System.out.println("ID: " + offering.getId() + ", Activity: " + offering.getActivity() + 
-                                   ", Space: " + offering.getSpace().getAddress() +
-                                   ", Date: " + offering.getTimeslot().getStartDate() + 
-                                   " " + offering.getTimeslot().getEndDate() + " to " + 
-                                   offering.getTimeslot().getEndDate() + "Time: " + offering.getTimeslot().getStartTime()+ "until "+ offering.getTimeslot().getEndTime());
+        // Loop through the offerings and print those that are public
+        for (Offering offering : offerings) {
+            if (offering.getLesson().getIsPublic()) {
+                System.out.println("ID: " + offering.getId() + ", Activity: " + offering.getLesson().getActivity() + 
+                                   ", Space: " + offering.getLesson().getSpace().getAddress() +
+                                   ", Date: " + offering.getLesson().getTimeslot().getStartDate() + 
+                                   " " + offering.getLesson().getTimeslot().getEndDate() + " to " + 
+                                   offering.getLesson().getTimeslot().getEndDate() + 
+                                   ", Time: " + offering.getLesson().getTimeslot().getStartTime() + 
+                                   " until " + offering.getLesson().getTimeslot().getEndTime());
                 hasPublicOfferings = true;
             }
         }
@@ -52,19 +63,22 @@ public class OfferingsCatalog {
         }
     }
 
+    // Method to view all offerings
     public void viewAllOfferings() {
-        System.out.println("Offerings:");
-        for (Lesson offering : offerings) {
-            System.out.println("ID: " + offering.getId() + ", Activity: " + offering.getActivity() + 
-            ", Space: " + offering.getSpace().getAddress() +
-            ", Date: " + offering.getTimeslot().getStartDate() + 
-            " " + offering.getTimeslot().getEndDate() + " to " + 
-            offering.getTimeslot().getEndDate() + "Time: " + offering.getTimeslot().getStartTime()+ "until "+ offering.getTimeslot().getEndTime());
+        System.out.println("All Offerings:");
+        for (Offering offering : offerings) {
+            System.out.println("ID: " + offering.getId() + ", Activity: " + offering.getLesson().getActivity() + 
+                               ", Space: " + offering.getLesson().getSpace().getAddress() +
+                               ", Date: " + offering.getLesson().getTimeslot().getStartDate() + 
+                               " " + offering.getLesson().getTimeslot().getEndDate() + " to " + 
+                               offering.getLesson().getTimeslot().getEndDate() + 
+                               ", Time: " + offering.getLesson().getTimeslot().getStartTime() + 
+                               " until " + offering.getLesson().getTimeslot().getEndTime());
         }
     }
 
-    public ArrayList<Lesson> getOfferings() {
+    // Getter for all offerings
+    public ArrayList<Offering> getOfferings() {
         return offerings;
     }
-
 }

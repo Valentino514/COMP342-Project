@@ -8,7 +8,7 @@ class Lesson {
     private Space space;
     private String id;
     private boolean isPublic = false;
-    private List<Offering> offerings;
+    private List<Offering> offerings; // List of offerings that belong to this lesson
     private List<Instructor> instructors;
 
     // Constructor
@@ -46,10 +46,12 @@ class Lesson {
         isPublic = true;
     }
 
+    // Method to add an offering to this lesson (composition)
     public void addOffering(Offering offering) {
         offerings.add(offering);
     }
 
+    // Create a new offering for this lesson
     public Offering createOffering(String offeringId, Date date, Timeslot timeslot, String status) {
         Offering newOffering = new Offering(this, offeringId, date, timeslot, status);
         addOffering(newOffering);
@@ -72,5 +74,17 @@ class Lesson {
     // Method to remove an instructor from the offering
     public void removeInstructor(Instructor instructor) {
         instructors.remove(instructor);
+    }
+
+    @Override
+    public String toString() {
+        return "Lesson{" +
+                "activity='" + activity + '\'' +
+                ", timeslot=" + timeslot +
+                ", space=" + space +
+                ", id='" + id + '\'' +
+                ", isPublic=" + isPublic +
+                ", offerings=" + offerings +
+                '}';
     }
 }

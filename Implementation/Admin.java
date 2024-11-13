@@ -4,12 +4,12 @@ import java.util.Scanner;
 
 public class Admin extends User {
 
-    private List<Lesson> createdOfferings;
+    private List<Lesson> createdLessons;
     private static List<User> users = new ArrayList<>();
 
     public Admin(String name, String password) {
         super(name, password);
-        this.createdOfferings = new ArrayList<>();
+        this.createdLessons = new ArrayList<>();
     }
 
     // Method to create a new lesson
@@ -38,25 +38,31 @@ public class Admin extends User {
         System.out.print("Enter activity: ");
         String activity = scanner.nextLine();
 
-        System.out.print("Enter offering ID: ");
+        System.out.print("Enter the city that holds the activity: ");
         String id = scanner.nextLine();
+
+        System.out.print("Enter offering ID: ");
+        String city = scanner.nextLine();
 
         System.out.print("Is this offering public? (yes/no): ");
         boolean isPublic = scanner.nextLine().trim().equalsIgnoreCase("yes");
 
-        Space space = new Space(address, type);
+        System.out.print("Is this place rented? (yes/no): ");
+        boolean isRented = scanner.nextLine().trim().equalsIgnoreCase("yes");
+
+        Space space = new Space(address, type,city,isRented);
         Timeslot timeslot = new Timeslot(startTime, endTime, startDate, endDate, space);
 
         Lesson newLesson = new Lesson(activity, timeslot, space, id);
-        createdOfferings.add(newLesson);
+        createdLessons.add(newLesson);
 
         offeringsCatalog.makeOffering(activity, timeslot, space, id, isPublic);
 
         System.out.println("Lesson created successfully!");
     }
 
-    public List<Lesson> getCreatedOfferings() {
-        return createdOfferings;
+    public List<Lesson> getCreatedLessons() {
+        return createdLessons;
     }
 
     public void deleteAccount(List<User> users) {
