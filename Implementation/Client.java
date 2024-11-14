@@ -31,4 +31,20 @@ class Client extends User{
             System.out.println("error adding booking since it is full");
         }
     }
+
+    public void viewfferings() {
+        if (offerings.isEmpty()) {
+            System.out.println("No offerings booked.");
+        } else {
+            System.out.println("Booked Offerings:");
+            for (Offering offering : offerings) {
+                System.out.println("Activity: " + offering.getActivity());
+                System.out.println("Schedule: " + offering.getSchedule());
+                System.out.println("Space: " + offering.getSpace().getAddress());
+                System.out.println("Instructor: " + offering.getInstructor().getName());
+                System.out.println("Is Public: " + (offering.getIsPublic() ? "Yes" : "No"));
+                System.out.println("---------------------------------");
+            }
+        }
+    }
 }

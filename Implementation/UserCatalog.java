@@ -22,7 +22,7 @@ public class UserCatalog {
     }
 
     // Method to retrieve a user by name
-    public User getUser(String id) {
+    public static User getUser(String id) {
         for (User user : userCatalog) {
             if (user.getUserId().equals(id)) {
                 return user; 

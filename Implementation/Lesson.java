@@ -58,18 +58,7 @@ class Lesson {
     public void setIsOpen(boolean isOpen){
         this.isOpen = isOpen;
     }
-
-    public void addInstructor(Instructor instructor, boolean isPublic){
-        if(this.isOpen){
-            Offering offering = new Offering(this.activity,this.schedule,this.space,this.lessonId, instructor, isPublic);
-            offerings.add(offering);
-            this.isOpen =false;
-        }
-        else{
-            System.out.println("lesson is not available anymore\n");
-        }
-
-    }
+    
         @Override
         public boolean equals(Object obj) {
         // Check if the object is the same as this instance

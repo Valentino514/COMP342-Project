@@ -8,7 +8,6 @@ class LessonCatalog {
         Space space = SpaceCatalog.findSpace(spaceId);
         boolean scheduleConflict = ScheduleCatalog.checkScheduleConflict(schedule, spaceId);
         
-
         if (space != null && !scheduleConflict) {
             // Space found, create the lesson
             Lesson newLesson = new Lesson(activity, schedule, space, lessonId);
