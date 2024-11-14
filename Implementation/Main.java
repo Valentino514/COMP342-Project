@@ -11,12 +11,12 @@ public class Main {
         OrganizationCatalog organizationCatalog= new OrganizationCatalog();
 
         //temp values for testing
-        Space space1 = new OwnedSpace("36 Concordia", "pool");
+        Space space1 = new Space("36 Concordia", "pool","Montreal",false);
         spaceCatalog.addSpace(space1);
         Timeslot timeslot1 = new Timeslot("12:00", "13:30", "2024-12-01", "2024-12-24", space1);
         offeringsCatalog.makeOffering("swimming", timeslot1, space1, "SWIM-201",true);
 
-        Space space2 = new OwnedSpace("25 Guy st", "pool");
+        Space space2 = new Space("25 Guy st", "pool","NewYork",true);
         spaceCatalog.addSpace(space2);
         Timeslot timeslot2 = new Timeslot("11:00", "12:30", "2024-05-05", "2024-05-25", space2);
         offeringsCatalog.makeOffering("Running", timeslot2, space2, "RUN-201",false);
