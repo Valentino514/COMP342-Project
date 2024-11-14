@@ -1,76 +1,57 @@
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-class Offering {
-    private String id;
-    private Date date;
-    private Timeslot timeslot;
-    private Lesson lesson;  
+class Offering extends Lesson{
+    Instructor instructor;
+    int bookingAmmount;
+    boolean isPublic;
     private List<Client> clients;
-    private String status;
-    private LessonCatalog lessonCatalog;
 
     // Constructor
-    public Offering(Lesson lesson, String id, Date date, Timeslot timeslot, String status) {
-        this.lesson = lesson;
-        this.id = id;
-        this.date = date;
-        this.timeslot = timeslot;
+    public Offering(String activity, Schedule schedule, Space space, String lessonId, Instructor instructor, boolean isPublic){
+        super(activity,schedule,space,lessonId);
+        this.bookingAmmount = 0;
+        this.instructor = instructor;
+        this.isPublic = isPublic;
         this.clients = new ArrayList<>();
-        this.status = status;
     }
 
-    // Getter methods
-    public String getId() {
-        return id;
+    public Instructor getInstructor(){
+        return instructor;
     }
 
-    public Date getDate() {
-        return date;
+    public void setInstructor(Instructor instructor){
+        this.instructor = instructor;
     }
 
-    public Timeslot getTimeslot() {
-        return timeslot;
+    public int getBookingAmmount(){
+        return bookingAmmount;
     }
 
-    public Lesson getLesson() {
-        return lesson;
+    public void setBookingAmmount(int ammount){
+        this.bookingAmmount = ammount;
     }
 
-    public String getStatus() {
-        return status;
+    public boolean getIsPublic(){
+        return isPublic;
     }
 
-    public LessonCatalog getLessonCatalog() {
-        return lessonCatalog;  
+    public void setIsPublic(boolean isPublic){
+        this.isPublic = isPublic;
     }
 
-    public List<Client> getClients() {
-        return clients;
-    }
 
-    // Setter methods for updating booking status
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void addClient(Client client) {
-        if (!clients.contains(client)) { // Avoid duplicate clients
+    public boolean addClient(Client client){
+        if(this.space.getPersonLimit() > bookingAmmount){
             clients.add(client);
-            client.addBooking(this); // Add this booking to the client's list
+            bookingAmmount++;
+            return true;
+        }
+        else{
+            System.out.println("error: Offer is full");
+            return false;
         }
     }
 
-    @Override
-    public String toString() {
-        return "Offering{" +
-                "id='" + id + '\'' +
-                ", date=" + date +
-                ", timeslot=" + timeslot +
-                ", lesson=" + lesson.getActivity() + " (" + lesson.getId() + ")" +
-                ", clients=" + clients +
-                ", status='" + status + '\'' +
-                '}';
-    }
+
 }

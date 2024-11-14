@@ -1,25 +1,20 @@
 import java.util.ArrayList;
-import java.util.List;
 
 public class UserCatalog {
-    private List<User> users; 
-
-    public UserCatalog() {
-        this.users = new ArrayList<>(); 
-    }
+    private static final ArrayList<User> userCatalog = new ArrayList<>(); 
 
     // Method to add a user
-    public void addUser(User user) {
+    public static void addUser(User user) {
         if (user != null) {
-            users.add(user);
+            userCatalog.add(user);
         }
     }
 
-    // Method to remove a user by name
-    public boolean removeUser(String name) {
-        for (User user : users) {
-            if (user.getName().equals(name)) {
-                users.remove(user);
+//remove user
+    public static boolean removeUser(String id) {
+        for (User user : userCatalog) {
+            if (user.getUserId().equals(id)) {
+                userCatalog.remove(user);
                 return true; // User found and removed
             }
         }
@@ -27,22 +22,22 @@ public class UserCatalog {
     }
 
     // Method to retrieve a user by name
-    public User getUser(String name) {
-        for (User user : users) {
-            if (user.getName().equals(name)) {
+    public User getUser(String id) {
+        for (User user : userCatalog) {
+            if (user.getUserId().equals(id)) {
                 return user; 
             }
         }
         return null; 
     }
 
-    // Method to get all users
-    public List<User> getAllUsers() {
-        return new ArrayList<>(users); 
+    // Method to get all userCatalog
+    public static ArrayList<User> getUserCatalog() {
+        return userCatalog;
     }
 
-    // Method to get the number of users
-    public int getUserCount() {
-        return users.size(); 
+    // Method to get the number of userCatalog
+    public static int getUserCount() {
+        return userCatalog.size(); 
     }
 }
