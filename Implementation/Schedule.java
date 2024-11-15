@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Schedule {
+    private String scheduleId;
     private LocalTime startTime;
     private LocalTime endTime;
     private LocalDate startDate;
@@ -19,6 +20,10 @@ public class Schedule {
 
     // Constructor
     public Schedule(String startTime, String endTime, String startDate, String endDate, Space space, String day) {
+        // Normalize the time input to handle optional seconds
+        startTime = startTime.split(":").length == 3 ? startTime.substring(0, 5) : startTime;
+        endTime = endTime.split(":").length == 3 ? endTime.substring(0, 5) : endTime;
+    
         this.startTime = LocalTime.parse(startTime, timeFormatter);
         this.endTime = LocalTime.parse(endTime, timeFormatter);
         this.startDate = LocalDate.parse(startDate, dateFormatter);
@@ -26,6 +31,15 @@ public class Schedule {
         this.lessons = new ArrayList<>();
         this.day = day;
         this.space = space;
+    }
+    
+
+    public String getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(String scheduleId) {
+        this.scheduleId = scheduleId;
     }
 
     //getters and setters
@@ -86,13 +100,18 @@ public class Schedule {
 
     // Check for conflicts with time and date
     public boolean timeslotAvailable(Schedule other) {
-        // Check if the date/time don't overlap
-        boolean noDateOverlap = this.endDate.isBefore(other.startDate) || this.startDate.isAfter(other.endDate);
-        boolean noTimeOverlap = this.endTime.isBefore(other.startTime) || this.startTime.isAfter(other.endTime);
-        boolean dayOverlap = (this.getDay().equals(other.getDay()));
-        return noDateOverlap || noTimeOverlap || dayOverlap;
+        // Check if dates overlap
+        boolean dateOverlap = !this.endDate.isBefore(other.startDate) && !this.startDate.isAfter(other.endDate);
+        // Check if times overlap
+        boolean timeOverlap = !this.endTime.isBefore(other.startTime) && !this.startTime.isAfter(other.endTime);
+        // Check if days are the same
+        boolean dayConflict = this.getDay().equalsIgnoreCase(other.getDay());
+        boolean conflictExists = dateOverlap && timeOverlap && dayConflict;
+        return !conflictExists;
     }
+    
 
+    // Printing the schedule
     public void printSchedule() {
         System.out.println("Schedule Details:");
         System.out.println("Day: " + day);

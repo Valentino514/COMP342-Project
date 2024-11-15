@@ -9,28 +9,22 @@ public class Space {
     private String city;
     private String spaceId;
     private ArrayList<Lesson> lessons;
-    private static int idCounter = 1;
 
-
+    // constructor
     public Space(String address,String type, boolean isRented, String city, int personLimit) {
         this.address = address;
         this.type =type;
         this.isRented = isRented;
         this.city = city;
         this.personLimit = personLimit;
-        this.spaceId = generateUniqueId();
         this.lessons = new ArrayList<>();
     }
 
-    private static String generateUniqueId() {
-        return String.valueOf(idCounter++); 
-    }
-
+    // getters and setters
     public String getAddress() {
         return address;
     }
 
-    // Getter for type
     public String getType() {
         return type;
     }
@@ -72,7 +66,8 @@ public class Space {
         this.personLimit = limit;
     }
 
-    public void setPsaceId(String id) {
+    public void setSpaceId(String id) {
         this.spaceId = id;
     }
+    
 }
