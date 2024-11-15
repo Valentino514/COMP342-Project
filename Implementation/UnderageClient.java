@@ -18,6 +18,16 @@ public class UnderageClient extends Client {
     public String getGuardianPhone() {
         return guardianPhone;
     }
+
+    public void addOffering(Offering offering) {
+        if(offering.addClient(this)){
+        offerings.add(offering);
+        System.out.println("guardian "+ this.getGuardianName() + " made a booking for " +this.getName()+", who is "+this.getAge()+" successfully");
+        }
+        else{
+            System.out.println("error booking this offer");
+        }
+    }
     
     @Override
     public String getName() {
