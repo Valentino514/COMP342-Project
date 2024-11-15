@@ -33,11 +33,12 @@ public class Schedule {
         this.space = space;
     }
     
-
+    // getting the schedule using the ID
     public String getScheduleId() {
         return scheduleId;
     }
 
+    // sets a schedule ID
     public void setScheduleId(String scheduleId) {
         this.scheduleId = scheduleId;
     }

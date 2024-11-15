@@ -18,10 +18,12 @@ public class Client extends User {
     }
 
 
-
+    // Getting client ID
     public String getClientId() {
         return clientId;
     }
+    
+    //Setting up Client ID
     public void setClientId(String clientId) {
         this.clientId = clientId;
     }

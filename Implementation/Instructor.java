@@ -8,7 +8,7 @@ public class Instructor extends User {
     private Organization organization;
     private String instructorId;
 
-    // Constructor
+    // Constructors
     public Instructor(String specialization, String name, String password, String phoneNumber, ArrayList<String> cities) {
         super(name, password);
         this.specialization = specialization;
@@ -24,10 +24,12 @@ public class Instructor extends User {
         this.cities = new ArrayList<>();
     }
 
+    // getting InstructorId
     public String getInstructorId() {
         return instructorId;
     }
 
+    // setting instructorId
     public void setInstructorId(String instructorId) {
         this.instructorId = instructorId;
     }
