@@ -7,6 +7,7 @@ public class OfferingCatalog {
 
     public static void generateOffering(String activity, Schedule schedule, Space space,Instructor instructor, boolean isPublic) {
         Offering newOffering = new Offering(activity,schedule,space,instructor,isPublic);
+        newOffering.setIsOpen(false);
         offeringCatalog.add(newOffering);
         instructor.addLesson(newOffering);
         System.out.println("offering for instructor "+ instructor.getName() + " generated");
@@ -16,23 +17,35 @@ public class OfferingCatalog {
         return offeringCatalog;
     }
 
-    public static void viewOfferings() {
-            if (offeringCatalog.isEmpty()) {
-                System.out.println("No offerings for clients available to book in the catalog.");
-                return;
-            }
+    public static boolean viewOfferings() {
+        if (offeringCatalog.isEmpty()) {
+            System.out.println("No offerings for clients available to book in the catalog.");
+            return false;
+        }
     
-            // Iterate through the lessons and print their details
-            System.out.println("offerings available to book ");
-            for (Offering offering : offeringCatalog) {
-                if (!offering.getIsOpen()){
+        boolean hasAvailableOfferings = false;
+    
+        System.out.println("Offerings available to book:");
+        for (Offering offering : offeringCatalog) {
+            if (!offering.getIsOpen()) {
+                hasAvailableOfferings = true;
                 System.out.println("Lesson ID: " + offering.getLessonId());
                 System.out.println("Activity: " + offering.getActivity());
-                System.out.println("Schedule: " + offering.getSchedule().getStartDate() + " - " + offering.getSchedule().getEndDate());
-                System.out.println("Space: " + offering.getSpace().getAddress());
+                System.out.println("date: " + offering.getSchedule().getStartDate() + " - " + offering.getSchedule().getEndDate());
+                System.out.println("time: " + offering.getSchedule().getStartTime() + " - " + offering.getSchedule().getEndTime());
+                System.out.println("address: " + offering.getSpace().getAddress());
+                System.out.println("city: " + offering.getSpace().getCity());
+                int spaceLeft = (offering.getSpace().getPersonLimit()) - (offering.getBookingAmmount());
+                System.out.println("space remaining: " +  spaceLeft);
+                System.out.println("instructor name: "+offering.getInstructor().getName());
                 System.out.println("------------");
-                }
             }
+        }
+    
+        if (!hasAvailableOfferings) {
+            System.out.println("No available offerings to book.");
+        }
+        return hasAvailableOfferings;
     }
 
     public static Offering findOffering(String offeringId) {

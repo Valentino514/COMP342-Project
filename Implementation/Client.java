@@ -26,7 +26,7 @@ class Client extends User{
     public void addOffering(Offering offering) {
         if(offering.addClient(this)){
         offerings.add(offering);
-        System.out.println("offering added to client "+ this.getName() + "successfully");
+        System.out.println("offering added to client "+ this.getName() + " successfully");
         }
         else{
             System.out.println("error adding booking since it is full");

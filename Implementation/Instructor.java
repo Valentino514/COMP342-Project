@@ -56,9 +56,18 @@ public class Instructor extends User {
             System.out.println("Offerings for Instructor: " + this.getName());
             for (Offering offering : offerings) {
                 System.out.println("Activity: " + offering.getActivity());
-                System.out.println("Schedule: " + offering.getSchedule().getStartDate()+ " - " +offering.getSchedule().getEndDate()+ " every "+ offering.getSchedule().getDay());
-                System.out.println("Space: " + offering.getSpace().getAddress() + ", " + offering.getSpace().getCity() + ", "+offering.getSpace().getType());
+                System.out.println("date: " + offering.getSchedule().getStartDate()+ " - " +offering.getSchedule().getEndDate()+ " every "+ offering.getSchedule().getDay());
+                System.out.println("time: " + offering.getSchedule().getStartTime()+ " - " +offering.getSchedule().getEndTime());
+                System.out.println("address: " + offering.getSpace().getAddress() + ", " + offering.getSpace().getCity() + ", "+offering.getSpace().getType());
                 System.out.println("Lesson ID: " + offering.getLessonId());
+                if(offering.getIsPublic()){
+                    System.out.println("lesson availability: public");
+                }else{
+                    System.out.println("lesson availability: private");
+                }
+                int remainingSpace = (offering.getSpace().getPersonLimit()) - offering.getBookingAmmount();
+                System.out.println("available spaces: "+ remainingSpace );
+
                 System.out.println("-------------------------");
             }
         }

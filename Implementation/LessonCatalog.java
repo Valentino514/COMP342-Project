@@ -74,24 +74,32 @@ class LessonCatalog {
         return lessonCatalog;
     }
 
-    public static void viewLessons() {
+    public static boolean viewLessons() {
         if (lessonCatalog.isEmpty()) {
             System.out.println("No lessons available in the catalog.");
-            return;
+            return false;
         }
-
-        // Iterate through the lessons and print their details
-        System.out.println("open lessons for instructors:");
+    
+        boolean hasOpenLessons = false;
+    
         for (Lesson lesson : lessonCatalog) {
-            if (lesson.getIsOpen()){
-            System.out.println("Lesson ID: " + lesson.getLessonId());
-            System.out.println("Activity: " + lesson.getActivity());
-            System.out.println("Schedule: " + lesson.getSchedule().getStartDate() + " - " + lesson.getSchedule().getEndDate());
-            System.out.println("Space: " + lesson.getSpace().getAddress());
-            System.out.println("City: " + lesson.getSpace().getCity());
-
-            System.out.println("------------");
+            if (lesson.getIsOpen()) {
+                hasOpenLessons = true;
+                System.out.println("Lesson ID: " + lesson.getLessonId());
+                System.out.println("Activity: " + lesson.getActivity());
+                System.out.println("Date: " + lesson.getSchedule().getStartDate() + " - " + lesson.getSchedule().getEndDate());
+                System.out.println("Time: " + lesson.getSchedule().getStartTime() + " - " + lesson.getSchedule().getEndTime());
+                System.out.println("Space: " + lesson.getSpace().getAddress());
+                System.out.println("City: " + lesson.getSpace().getCity());
+                System.out.println("------------");
             }
         }
+    
+        if (!hasOpenLessons) {
+            System.out.println("No open lessons available.");
+        }
+        return hasOpenLessons;
     }
+    
+    
 }

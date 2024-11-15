@@ -4,8 +4,6 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-
-
         //*  TEMPORARY VALUES FOR TESTING
         Space space1 = new Space("Concordia", "pool", true, "montreal", 25);
         SpaceCatalog.addSpace(space1);
@@ -31,6 +29,9 @@ public class Main {
 
         Client client2 = new Client("peter", "123", 15);
         UserCatalog.addUser(client2);
+
+        Client client3 = new Client("peter2", "123", 15);
+        UserCatalog.addUser(client3);
 
         Admin admin = new Admin("admin", "qwert");
         UserCatalog.addUser(admin);
@@ -138,12 +139,25 @@ while (true) { // Main application loop
 
                 switch (choice) {
                     case 1:
-                    OfferingCatalog.viewOfferings();
-                    System.out.println("type the offering id to select it");
+                    // View offerings and check if there are any available to book
+                    if (!OfferingCatalog.viewOfferings()) {
+                        break; // exit case 1 if no offerings available
+                    }
+                    System.out.println("Type the offering ID to select it: ");
                     String offeringId = scanner.nextLine();
                     Offering offering = OfferingCatalog.findOffering(offeringId);
+                
+                    // Check if the offering is null (not found)
+                    if (offering == null) {
+                        System.out.println("Offering with ID " + offeringId + " not found. Please check the ID and try again.");
+                        break; // Exit case 1 if the offering is not found
+                    }
+                
+                    // Proceed with adding the offering if it's found
                     client.addOffering(offering);
                     break;
+                
+
                     case 2:
                         OfferingCatalog.viewOfferings();
                         break;
@@ -166,8 +180,11 @@ while (true) { // Main application loop
 
                 switch (choice) {
                     case 1:
-                    LessonCatalog.viewLessons();
-                    System.out.println("select lesson by typing the id: ");
+                    //view lessons and check if there are any open lessons
+                    if (!LessonCatalog.viewLessons()) {
+                        break; // Exit case 1 if no open lessons are available
+                    }
+                    System.out.println("Select lesson by typing the id: ");
                     String lessonChoice = scanner.nextLine();
                     LessonCatalog.takeLesson(instructor, lessonChoice);
                     break;

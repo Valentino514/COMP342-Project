@@ -5,7 +5,7 @@ class Offering extends Lesson{
     Instructor instructor;
     int bookingAmmount;
     boolean isPublic;
-    private List<Client> clients;
+    private List<Client> clients = new ArrayList<>();
 
     // Constructor
     public Offering(String activity, Schedule schedule, Space space, Instructor instructor, boolean isPublic){
