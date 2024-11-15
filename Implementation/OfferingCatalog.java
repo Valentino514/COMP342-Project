@@ -17,7 +17,42 @@ public class OfferingCatalog {
         return offeringCatalog;
     }
 
-    public static boolean viewOfferings() {
+    public static boolean viewClientOfferings(Client client) {
+        if (offeringCatalog.isEmpty()) {
+            System.out.println("No offerings for clients available to book in the catalog.");
+            return false;
+        }
+    
+        boolean hasAvailableOfferings = false;
+    
+        System.out.println("Offerings available to book:");
+        for (Offering offering : offeringCatalog) {
+            if (!offering.getIsOpen()) {
+                hasAvailableOfferings = true;
+                System.out.println("Lesson ID: " + offering.getLessonId());
+                System.out.println("Activity: " + offering.getActivity());
+                System.out.println("date: " + offering.getSchedule().getStartDate() + " - " + offering.getSchedule().getEndDate());
+                System.out.println("time: " + offering.getSchedule().getStartTime() + " - " + offering.getSchedule().getEndTime());
+                System.out.println("address: " + offering.getSpace().getAddress());
+                System.out.println("city: " + offering.getSpace().getCity());
+                int spaceLeft = (offering.getSpace().getPersonLimit()) - (offering.getBookingAmmount());
+                System.out.println("space remaining: " +  spaceLeft);
+                System.out.println("instructor name: "+offering.getInstructor().getName());
+                if(offering.getClients().contains(client)){
+                    System.out.println("Not available: already booked");
+                }
+                System.out.println("------------");
+
+            }
+        }
+    
+        if (!hasAvailableOfferings) {
+            System.out.println("No available offerings to book.");
+        }
+        return hasAvailableOfferings;
+    }
+
+    public static boolean viewPublictOfferings() {
         if (offeringCatalog.isEmpty()) {
             System.out.println("No offerings for clients available to book in the catalog.");
             return false;

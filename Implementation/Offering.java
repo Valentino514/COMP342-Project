@@ -1,11 +1,10 @@
 import java.util.ArrayList;
-import java.util.List;
 
 class Offering extends Lesson{
     Instructor instructor;
     int bookingAmmount;
     boolean isPublic;
-    private List<Client> clients = new ArrayList<>();
+    private ArrayList<Client> clients = new ArrayList<>();
 
     // Constructor
     public Offering(String activity, Schedule schedule, Space space, Instructor instructor, boolean isPublic){
@@ -40,15 +39,19 @@ class Offering extends Lesson{
         this.isPublic = isPublic;
     }
 
+    public ArrayList<Client> getClients(){
+        return clients;
+    }
+
 
     public boolean addClient(Client client){
-        if(this.space.getPersonLimit() > bookingAmmount){
+        if((this.space.getPersonLimit() > bookingAmmount) && !(clients.contains(client))){
             clients.add(client);
             bookingAmmount++;
             return true;
         }
-        else{
-            System.out.println("error: Offer is full");
+        else {
+            System.out.println("error booking this offer.");
             return false;
         }
     }

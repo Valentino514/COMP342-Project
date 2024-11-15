@@ -140,7 +140,7 @@ while (true) { // Main application loop
                 switch (choice) {
                     case 1:
                     // View offerings and check if there are any available to book
-                    if (!OfferingCatalog.viewOfferings()) {
+                    if (!OfferingCatalog.viewClientOfferings(client)) {
                         break; // exit case 1 if no offerings available
                     }
                     System.out.println("Type the offering ID to select it: ");
@@ -159,7 +159,7 @@ while (true) { // Main application loop
                 
 
                     case 2:
-                        OfferingCatalog.viewOfferings();
+                        OfferingCatalog.viewClientOfferings(client);
                         break;
                     case 3:
                         logout = true;
@@ -214,7 +214,7 @@ while (true) { // Main application loop
 
             switch (choice) {
                 case 1:
-                    OfferingCatalog.viewOfferings();
+                    OfferingCatalog.viewPublictOfferings();
                     break;
                 case 2:
                   System.out.println("enter your name");

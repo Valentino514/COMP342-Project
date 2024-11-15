@@ -1,9 +1,8 @@
 import java.util.ArrayList;
-import java.util.List;
 
 class Client extends User{
     private int age;
-    private List<Offering> offerings; 
+    private ArrayList<Offering> offerings; 
 
     // Constructor
     public Client(String name, String password, int age) {
@@ -12,7 +11,7 @@ class Client extends User{
         this.offerings = new ArrayList<>(); // Initialize empty offerings list
     }
 
-    public List<Offering> getOfferings() {
+    public ArrayList<Offering> getOfferings() {
         return offerings;
     }
     public int getAge() {
