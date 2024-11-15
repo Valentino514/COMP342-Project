@@ -39,4 +39,18 @@ public class UnderageClient extends Client {
         System.out.println("Guardian Name: " + guardianName);
         System.out.println("Guardian Phone: " + guardianPhone);
     }
+
+    public void setGuardianName(String name) {
+        this.guardianName=name;
+    }
+
+    public void setGuardianPhone(String phone) {
+        this.guardianPhone = phone;
+    }
+
+    public String getUnderageClientid() {
+        return super.getUserId();
+    }
+
+
 }

@@ -6,28 +6,43 @@ public class Instructor extends User {
     private ArrayList<String> cities;
     private ArrayList<Offering> offerings;
     private Organization organization;
+    private String instructorId;
 
-    // constructor
+    // Constructor
     public Instructor(String specialization, String name, String password, String phoneNumber, ArrayList<String> cities) {
         super(name, password);
         this.specialization = specialization;
         this.phoneNumber = phoneNumber;
         this.offerings = new ArrayList<>();
         this.cities = cities;
-        //this.organization = organization; maybe add this later
+
     }
 
-    // get the List of all cities from the arrayList
+    public Instructor(String name, String password) {
+        super(name, password);
+        this.offerings = new ArrayList<>();
+        this.cities = new ArrayList<>();
+    }
+
+    public String getInstructorId() {
+        return instructorId;
+    }
+
+    public void setInstructorId(String instructorId) {
+        this.instructorId = instructorId;
+    }
+
+    // Get the list of all cities
     public ArrayList<String> getCities() {
         return cities;
     }
 
-    // set cities in the arrayList
+    // Set cities
     public void setCities(ArrayList<String> cities) {
         this.cities = cities;
     }
 
-    // Adding a city
+    // Add a city
     public void addCity(String city) {
         if (!cities.contains(city)) {
             cities.add(city);
@@ -36,69 +51,72 @@ public class Instructor extends User {
         }
     }
 
-    // Adding a lesson
-    public void addLesson(Offering offering){
+    // Add an offering
+    public void addOffering(Offering offering) {
         offerings.add(offering);
     }
 
-    // get the Phone number of the client
+    // Get phone number
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    // get the specialization of the client
+    // Get specialization
     public String getSpecialization() {
         return specialization;
     }
 
-    // set the phone number of the client
+    // Set phone number
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
-    // set the specialization of the client
+    // Set specialization
     public void setSpecialization(String specialization) {
         this.specialization = specialization;
     }
 
     // Method to view assigned offerings
     public void viewAssignedOfferings() {
+        ArrayList<Offering> offerings = OfferingCatalog.getOfferingsByInstructorId(this.getInstructorId());
         if (offerings.isEmpty()) {
             System.out.println("No offerings assigned to this instructor.");
         } else {
             System.out.println("Offerings for Instructor: " + this.getName());
             for (Offering offering : offerings) {
-                System.out.println("Activity: " + offering.getActivity());
-                System.out.println("date: " + offering.getSchedule().getStartDate()+ " - " +offering.getSchedule().getEndDate()+ " every "+ offering.getSchedule().getDay());
-                System.out.println("time: " + offering.getSchedule().getStartTime()+ " - " +offering.getSchedule().getEndTime());
-                System.out.println("address: " + offering.getSpace().getAddress() + ", " + offering.getSpace().getCity() + ", "+offering.getSpace().getType());
-                System.out.println("Lesson ID: " + offering.getLessonId());
-                if(offering.getIsPublic()){
-                    System.out.println("lesson availability: public");
-                }else{
-                    System.out.println("lesson availability: private");
+                Lesson lesson = offering.getLesson();
+    
+                System.out.println("Activity: " + lesson.getActivity());
+                System.out.println("Date: " + lesson.getSchedule().getStartDate() + " - " + lesson.getSchedule().getEndDate() + " every " + lesson.getSchedule().getDay());
+                System.out.println("Time: " + lesson.getSchedule().getStartTime() + " - " + lesson.getSchedule().getEndTime());
+                System.out.println("Address: " + lesson.getSpace().getAddress() + ", " + lesson.getSpace().getCity() + ", " + lesson.getSpace().getType());
+                System.out.println("Lesson ID: " + lesson.getLessonId());
+                if (offering.getIsPublic()) {
+                    System.out.println("Lesson availability: public");
+                } else {
+                    System.out.println("Lesson availability: private");
                 }
-                int remainingSpace = (offering.getSpace().getPersonLimit()) - offering.getBookingAmount();
-                System.out.println("available spaces: "+ remainingSpace );
-
+                int capacity = offering.getIsPublic() ? lesson.getSpace().getPersonLimit() : 1;
+                int remainingSpace = capacity - offering.getBookingAmount();
+                System.out.println("Available spaces: " + remainingSpace);
                 System.out.println("-------------------------");
             }
         }
     }
     
-    // Showing the availability of the city
+    
+    // Register availability
     public void registerAvailability(String city, String availabilityDetails) {
         System.out.println(this.getName() + " has registered availability in " + city + ": " + availabilityDetails);
     }
 
-    // get the organization
+    // Get organization
     public Organization getOrganization() {
         return organization;
     }
 
-    // sets an organization
+    // Set organization
     public void setOrganization(Organization organization) {
         this.organization = organization;
     }
-
 }

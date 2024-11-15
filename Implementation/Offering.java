@@ -1,65 +1,96 @@
 import java.util.ArrayList;
 
-class Offering extends Lesson{
-    Instructor instructor;
-    int bookingAmount;
-    boolean isPublic;
-    private ArrayList<Client> clients = new ArrayList<>();
+public class Offering {
+    private Lesson lesson;
+    private Instructor instructor;
+    private int bookingAmount;
+    private boolean isPublic;
+    private String offeringId;
+    private boolean isOpen;
+    private ArrayList<Client> clients;
 
     // Constructor
-    public Offering(String activity, Schedule schedule, Space space, Instructor instructor, boolean isPublic){
-        super(activity,schedule,space);
-        this.bookingAmount = 0;
+    public Offering(Lesson lesson, Instructor instructor, boolean isPublic) {
+        this.lesson = lesson;
         this.instructor = instructor;
         this.isPublic = isPublic;
+        this.bookingAmount = 0;
+        this.isOpen = false;
         this.clients = new ArrayList<>();
     }
 
-    // getting an instructor
-    public Instructor getInstructor(){
+    // Getter for lesson
+    public Lesson getLesson() {
+        return lesson;
+    }
+
+    // Setter for lesson (if needed)
+    public void setLesson(Lesson lesson) {
+        this.lesson = lesson;
+    }
+
+    // Getters and Setters for instructor
+    public Instructor getInstructor() {
         return instructor;
     }
 
-    // setting up the instructor
     public void setInstructor(Instructor instructor){
         this.instructor = instructor;
     }
 
-    // getting the cost of the booking
+    // Getters and Setters for bookingAmount
     public int getBookingAmount(){
         return bookingAmount;
     }
 
-    // Setting the cost of the booking
     public void setBookingAmount(int amount){
         this.bookingAmount = amount;
     }
 
-    // checking if the lesson is public
+    // Getters and Setters for isPublic
     public boolean getIsPublic(){
         return isPublic;
     }
 
-    // setting up if the lesson is public
     public void setIsPublic(boolean isPublic){
         this.isPublic = isPublic;
     }
 
+    // Getters and Setters for offeringId
+    public String getOfferingId(){
+        return offeringId;
+    }
+
+    public void setOfferingId(String offeringId){
+        this.offeringId = offeringId;
+    }
+
+    // Getters and Setters for isOpen
+    public boolean getIsOpen(){
+        return isOpen;
+    }
+
+    public void setIsOpen(boolean isOpen){
+        this.isOpen = isOpen;
+    }
+
+    // Getter for clients
     public ArrayList<Client> getClients(){
         return clients;
     }
 
-    // Adding a client to the lesson
-    public boolean addClient(Client client){
-        if((this.space.getPersonLimit() > bookingAmount) && !(clients.contains(client))){
+    // Adding a client to the offering
+    public boolean addClient(Client client) {
+        if ((getCapacity() > bookingAmount) && !clients.contains(client)) {
             clients.add(client);
             bookingAmount++;
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
-
-
+    
+    public int getCapacity() {
+        return isPublic ? lesson.getSpace().getPersonLimit() : 1;
+    }
 }
