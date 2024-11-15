@@ -19,6 +19,7 @@ public class UnderageClient extends Client {
         return guardianPhone;
     }
 
+    // Adding an offering for underage Client
     public void addOffering(Offering offering) {
         if(offering.addClient(this)){
         offerings.add(offering);
