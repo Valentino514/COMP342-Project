@@ -12,12 +12,17 @@ class Client extends User{
         this.offerings = new ArrayList<>(); // Initialize empty offerings list
     }
 
+
     public List<Offering> getOfferings() {
         return offerings;
     }
+
+    // get the age of the client
     public int getAge() {
         return age;
     }
+
+    // sets the age of the client
     public void setAge(int age) {
         this.age = age;
     }
@@ -33,6 +38,7 @@ class Client extends User{
         }
     }
 
+    // view all the offerings done
     public void viewfferings() {
         if (offerings.isEmpty()) {
             System.out.println("No offerings booked.");

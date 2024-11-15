@@ -41,7 +41,7 @@ public class SpaceCatalog {
         }
     }
 
-
+    // checking if a space exists
     public static Space findSpace(String spaceId) {
         for (Space space : spaceCatalog) {
             if (space.getSpaceId().equals(spaceId)) {

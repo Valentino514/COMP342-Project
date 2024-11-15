@@ -11,7 +11,7 @@ public class Space {
     private ArrayList<Lesson> lessons;
     private static int idCounter = 1;
 
-
+    // constructor
     public Space(String address,String type, boolean isRented, String city, int personLimit) {
         this.address = address;
         this.type =type;
@@ -22,10 +22,12 @@ public class Space {
         this.lessons = new ArrayList<>();
     }
 
+    // Generating different spaceIds of the space
     private static String generateUniqueId() {
         return String.valueOf(idCounter++); 
     }
 
+    // getters and setters
     public String getAddress() {
         return address;
     }

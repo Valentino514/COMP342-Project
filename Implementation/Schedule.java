@@ -93,6 +93,7 @@ public class Schedule {
         return noDateOverlap || noTimeOverlap || dayOverlap;
     }
 
+    // Printing the schedule
     public void printSchedule() {
         System.out.println("Schedule Details:");
         System.out.println("Day: " + day);

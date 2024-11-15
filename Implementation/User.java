@@ -11,10 +11,12 @@ abstract class User {
         this.userId = generateUniqueId();
     }
 
+    // Generating different userIds of the space
     private static String generateUniqueId() {
         return String.valueOf(idCounter++); // Convert the counter to a String for userId
     }
 
+    // getters and setters
     public String getName() {
         return name;
     }
@@ -39,6 +41,7 @@ abstract class User {
         this.userId=id;
     }
 
+    // Getting the user type whether the user is admin, instructor or Client
     public String getUserType() {
         if (this instanceof Client) {
             return "Client";

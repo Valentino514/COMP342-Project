@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class OrganizationCatalog {
     private ArrayList<Organization> organizations;
 
+    // constructor
     public OrganizationCatalog() {
         this.organizations = new ArrayList<>();
     }

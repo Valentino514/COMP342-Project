@@ -6,6 +6,7 @@ public class Organization {
     private ArrayList<Instructor> instructors;
     private ArrayList<Admin> admins;
 
+    // constructor
     public Organization(String name, String address) {
         this.name = name;
         this.address = address;
@@ -13,10 +14,12 @@ public class Organization {
         this.admins = new ArrayList<>();
     }
 
+    // Getting the name of the organization
     public String getName() {
         return name;
     }
 
+    // Getting the location address of the organization
     public String getAddress() {
         return address;
     }
@@ -44,11 +47,13 @@ public class Organization {
         }
     }
 
+    // Adding an admin by the organization
     public void addAdmin(Admin admin) {
         admins.add(admin);
         System.out.println(admin.getName() + " has been added as an admin in " + name + ".");
     }
 
+    // Removing an admin by the organization
     public void removeAdmin(Admin admin) {
         if (admins.remove(admin)) {
             System.out.println(admin.getName() + " has been removed from " + name + ".");
@@ -57,6 +62,7 @@ public class Organization {
         }
     }
 
+    // Viewing the admins of the organization
     public void viewAdmins() {
         System.out.println("Admins in " + name + ":");
         for (Admin admin : admins) {

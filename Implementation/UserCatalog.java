@@ -11,7 +11,7 @@ public class UserCatalog {
         }
     }
 
-//remove user
+    //remove user
     public static boolean removeUser(String id) {
         for (User user : userCatalog) {
             if (user.getUserId().equals(id)) {
@@ -35,6 +35,7 @@ public class UserCatalog {
         return null; 
     }
 
+    // Finding a specifc user according to his username and password
     public static boolean findUser(String username, String password) {
         for (User user : userCatalog) {
             if (user.getName().equals(username) && user.getPassword().equals(password)) {
@@ -54,6 +55,7 @@ public class UserCatalog {
         return userCatalog.size(); 
     }
 
+    // Viewing all users already created
     public static void viewUsers() {
         if (userCatalog.isEmpty()) {
             System.out.println("No users in the catalog.");

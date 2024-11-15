@@ -4,6 +4,7 @@ import java.util.Scanner;
 class LessonCatalog {
     private static final ArrayList<Lesson> lessonCatalog = new ArrayList<>();
 
+    // Creates a lesson
     public static void createLesson(String activity, Schedule schedule, String spaceId, String lessonId){
         Space space = SpaceCatalog.findSpace(spaceId);
         boolean scheduleConflict = ScheduleCatalog.checkScheduleConflict(schedule);
@@ -22,6 +23,7 @@ class LessonCatalog {
         }
     }
 
+    // Register for a lesson by a specific instructor
     public static void takeLesson(Instructor instructor,String lessonId){
         Lesson lesson = findLessonById(lessonId);
         if(lesson == null){

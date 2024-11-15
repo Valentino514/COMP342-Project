@@ -7,6 +7,7 @@ public class Instructor extends User {
     private ArrayList<Offering> offerings;
     private Organization organization;
 
+    // constructor
     public Instructor(String specialization, String name, String password, String phoneNumber, ArrayList<String> cities) {
         super(name, password);
         this.specialization = specialization;
@@ -16,14 +17,17 @@ public class Instructor extends User {
         //this.organization = organization; maybe add this later
     }
 
+    // get the List of all cities from the arrayList
     public ArrayList<String> getCities() {
         return cities;
     }
 
+    // set cities in the arrayList
     public void setCities(ArrayList<String> cities) {
         this.cities = cities;
     }
 
+    // Adding a city
     public void addCity(String city) {
         if (!cities.contains(city)) {
             cities.add(city);
@@ -31,20 +35,29 @@ public class Instructor extends User {
             System.out.println(city + " is already in the list of cities.");
         }
     }
+
+    // Adding a lesson
     public void addLesson(Offering offering){
         offerings.add(offering);
     }
 
+    // get the Phone number of the client
     public String getPhoneNumber() {
         return phoneNumber;
     }
+
+    // get the specialization of the client
     public String getSpecialization() {
         return specialization;
     }
+
+    // set the phone number of the client
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
 
-    }public void setSpecialization(String specialization) {
+    // set the specialization of the client
+    public void setSpecialization(String specialization) {
         this.specialization = specialization;
     }
 
@@ -65,7 +78,7 @@ public class Instructor extends User {
                 }else{
                     System.out.println("lesson availability: private");
                 }
-                int remainingSpace = (offering.getSpace().getPersonLimit()) - offering.getBookingAmmount();
+                int remainingSpace = (offering.getSpace().getPersonLimit()) - offering.getBookingAmount();
                 System.out.println("available spaces: "+ remainingSpace );
 
                 System.out.println("-------------------------");
@@ -73,14 +86,17 @@ public class Instructor extends User {
         }
     }
     
+    // Showing the availability of the city
     public void registerAvailability(String city, String availabilityDetails) {
         System.out.println(this.getName() + " has registered availability in " + city + ": " + availabilityDetails);
     }
 
+    // get the organization
     public Organization getOrganization() {
         return organization;
     }
 
+    // sets an organization
     public void setOrganization(Organization organization) {
         this.organization = organization;
     }
