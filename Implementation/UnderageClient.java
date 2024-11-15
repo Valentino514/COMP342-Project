@@ -3,8 +3,8 @@ public class UnderageClient extends Client {
     private String guardianName;
     private String guardianPhone;
 
-    public UnderageClient(String id, String name, String contactInfo,String password, String guardianName, String guardianPhone) {
-        super(id, name, contactInfo,password); 
+    public UnderageClient(String name, String password, String guardianName, String guardianPhone, int age) {
+        super(name, password, age); 
         this.guardianName = guardianName;
         this.guardianPhone = guardianPhone;
     }
@@ -20,11 +20,6 @@ public class UnderageClient extends Client {
     @Override
     public String getName() {
         return super.getName() + " (Underage)";
-    }
-
-    @Override
-    public void addBooking(Offering booking) {
-        super.addBooking(booking);
     }
 
     public void displayGuardianInfo() {

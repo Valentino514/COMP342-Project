@@ -2,26 +2,37 @@ import java.util.ArrayList;
 
 public class Instructor extends User {
     private String specialization;
-    private String name;
     private String phoneNumber;
-    private ArrayList<Lesson> assignedOfferings;
-    private ArrayList<Offering> selectedOfferings;
+    private ArrayList<String> cities;
+    private ArrayList<Offering> offerings;
     private Organization organization;
 
-    // Constructor
-    public Instructor(String s, String n, String p, String password, Organization organization) {
-        super(n, password);
-        this.specialization = s;
-        this.name = n;
-        this.phoneNumber = p;
-        this.organization = organization;
-        this.assignedOfferings = new ArrayList<>();
-        this.selectedOfferings = new ArrayList<>();
+    public Instructor(String specialization, String name, String password, String phoneNumber, ArrayList<String> cities) {
+        super(name, password);
+        this.specialization = specialization;
+        this.phoneNumber = phoneNumber;
+        this.offerings = new ArrayList<>();
+        this.cities = cities;
+        //this.organization = organization; maybe add this later
     }
 
-    // Getter methods
-    public String getName() {
-        return name;
+    public ArrayList<String> getCities() {
+        return cities;
+    }
+
+    public void setCities(ArrayList<String> cities) {
+        this.cities = cities;
+    }
+
+    public void addCity(String city) {
+        if (!cities.contains(city)) {
+            cities.add(city);
+        } else {
+            System.out.println(city + " is already in the list of cities.");
+        }
+    }
+    public void addLesson(Offering offering){
+        offerings.add(offering);
     }
 
     public String getPhoneNumber() {
@@ -31,16 +42,6 @@ public class Instructor extends User {
     public String getSpecialization() {
         return specialization;
     }
-
-    public Organization getOrganization() {
-        return organization;
-    }
-
-    // Setter methods
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
@@ -49,54 +50,33 @@ public class Instructor extends User {
         this.specialization = specialization;
     }
 
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
-    }
+    // Method to view assigned offerings
+    public void viewAssignedOfferings() {
+        if (offerings.isEmpty()) {
+            System.out.println("No offerings assigned to this instructor.");
+        } else {
+            System.out.println("Offerings for Instructor: " + this.getName());
+            for (Offering offering : offerings) {
+                System.out.println("Activity: " + offering.getActivity());
+                System.out.println("date: " + offering.getSchedule().getStartDate()+ " - " +offering.getSchedule().getEndDate()+ " every "+ offering.getSchedule().getDay());
+                System.out.println("time: " + offering.getSchedule().getStartTime()+ " - " +offering.getSchedule().getEndTime());
+                System.out.println("address: " + offering.getSpace().getAddress() + ", " + offering.getSpace().getCity() + ", "+offering.getSpace().getType());
+                System.out.println("Lesson ID: " + offering.getLessonId());
+                if(offering.getIsPublic()){
+                    System.out.println("lesson availability: public");
+                }else{
+                    System.out.println("lesson availability: private");
+                }
+                int remainingSpace = (offering.getSpace().getPersonLimit()) - offering.getBookingAmmount();
+                System.out.println("available spaces: "+ remainingSpace );
 
-    // Method to view open offerings based on specialization
-    public void viewOpenOfferings(OfferingsCatalog offeringsCatalog) {
-        System.out.println("Open Offerings for " + name + ":");
-        for (Offering offering : offeringsCatalog.getOfferings()) {  // Corrected to Offering type
-            if (offering.getLesson().getIsPublic() && offering.getLesson().getActivity().equals(specialization)) {
-                System.out.println("ID: " + offering.getId() + ", Activity: " + offering.getLesson().getActivity() +
-                                   ", Space: " + offering.getLesson().getSpace().getAddress() +
-                                   ", Time: " + offering.getTimeslot().getStartTime() + " - " +
-                                   offering.getTimeslot().getEndTime());
+                System.out.println("-------------------------");
             }
         }
     }
     
-
-    public void selectOffering(Offering offering) {
-        if (offering.getLesson().getActivity().equals(specialization)) {
-            selectedOfferings.add(offering);
-            offering.addInstructor(this); // Add this instructor to the offering
-            System.out.println(name + " has selected the offering: " + offering.getId());
-        } else {
-            System.out.println("Offering does not match instructor specialization.");
-        }
-    }
-
-    public void removeOffering(Offering offering) {
-        if (selectedOfferings.contains(offering)) {
-            selectedOfferings.remove(offering);
-            offering.removeInstructor(this); // Remove instructor from offering
-            System.out.println(name + " has been removed from the offering: " + offering.getId());
-        }
-    }
-
-    public void viewAssignedOfferings() {
-        System.out.println(name + "'s Assigned Offerings:");
-        for (Offering offering : selectedOfferings) {
-            System.out.println("ID: " + offering.getId() + ", Activity: " + offering.getLesson().getActivity() +
-                               ", Space: " + offering.getLesson().getSpace().getAddress() +
-                               ", Time: " + offering.getTimeslot().getStartTime() + " - " +
-                               offering.getTimeslot().getEndTime());
-        }
-    }
-
     public void registerAvailability(String city, String availabilityDetails) {
-        System.out.println(name + " has registered availability in " + city + ": " + availabilityDetails);
+        System.out.println(this.getName() + " has registered availability in " + city + ": " + availabilityDetails);
     }
 
     @Override

@@ -1,80 +1,105 @@
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Scanner;
 
-public class LessonCatalog {
-    private List<Lesson> lessons;
+class LessonCatalog {
+    private static final ArrayList<Lesson> lessonCatalog = new ArrayList<>();
 
-    // Constructor
-    public LessonCatalog() {
-        this.lessons = new ArrayList<>();
-    }
-
-    // Add a lesson to the catalog
-    public void addLesson(Lesson lesson) {
-        if (!lessons.contains(lesson)) {
-            lessons.add(lesson);
-        } else {
-            System.out.println("Lesson with ID " + lesson.getId() + " already exists.");
+    public static void createLesson(String activity, Schedule schedule, String spaceId, String lessonId){
+        Space space = SpaceCatalog.findSpace(spaceId);
+        boolean scheduleConflict = ScheduleCatalog.checkScheduleConflict(schedule);
+        
+        if (space != null && !scheduleConflict) {
+            // Space found, create the lesson
+            Lesson newLesson = new Lesson(activity, schedule, space);
+            addLesson(newLesson);
+            System.out.println("Lesson created successfully with space: " + space.getAddress());
+        } else if(scheduleConflict){
+            System.out.println("error creting lesson, schedule conflict detected in space "+ spaceId);
+        }
+         else {
+            // Space not found
+            System.out.println("Cannot create lesson. Space not found.");
         }
     }
 
-    // Remove a lesson from the catalog by ID
-    public void removeLessonById(String lessonId) {
-        Lesson lessonToRemove = findLessonById(lessonId);
-        if (lessonToRemove != null) {
-            lessons.remove(lessonToRemove);
-            System.out.println("Lesson with ID " + lessonId + " removed.");
-        } else {
-            System.out.println("Lesson with ID " + lessonId + " not found.");
+    public static void takeLesson(Instructor instructor,String lessonId){
+        Lesson lesson = findLessonById(lessonId);
+        if(lesson == null){
+            System.out.println("error, lesson not found in catalog");
+            return;
+        }
+        String cityOfLesson = lesson.getSpace().getCity();
+        if(instructor.getCities().contains(cityOfLesson)){
+                System.out.println("would you like to make the lesson private? (1 client max) (Y/N)");
+                Scanner scanner = new Scanner(System.in);
+                String userInput = scanner.nextLine().trim();  // Get user input and trim any surrounding whitespace
+                boolean isPublic;
+                if (userInput.equalsIgnoreCase("Y")) {
+                    isPublic = false;
+                    lesson.space.setPersonLimit(1);
+                }else{
+                    isPublic = true;
+                }
+                lesson.setIsOpen(false);
+                OfferingCatalog.generateOffering(lesson.getActivity(),lesson.getSchedule(),lesson.getSpace(),instructor,isPublic);
+
+        }else{
+            System.out.println("lesson located in city not in instructor's list of selected city");
+        }
+
+    }
+    // Add a lesson to the catalog
+    public static void addLesson(Lesson lesson) {
+        if (!lessonCatalog.contains(lesson)) {
+            lessonCatalog.add(lesson);
+        }
+        else{
+            System.out.println("error: lesson already in Catalog");
         }
     }
 
     // Find a lesson by ID
-    public Lesson findLessonById(String lessonId) {
-        for (Lesson lesson : lessons) {
-            if (lesson.getId().equals(lessonId)) {
+    public static Lesson findLessonById(String lessonId) {
+        for (Lesson lesson : lessonCatalog) {
+            if (lesson.getLessonId().equals(lessonId)) {
                 return lesson;
             }
         }
+        System.out.println("lesson with id "+lessonId+ " not found");
         return null; // No lesson found with the given ID
     }
 
     // Get all lessons in the catalog
-    public List<Lesson> getAllLessons() {
-        return new ArrayList<>(lessons);
+    public static ArrayList<Lesson> getAllLessons() {
+        return lessonCatalog;
     }
 
-    // Get all public lessons (lessons with isPublic set to true)
-    public List<Lesson> getPublicLessons() {
-        List<Lesson> publicLessons = new ArrayList<>();
-        for (Lesson lesson : lessons) {
-            if (lesson.getIsPublic()) {
-                publicLessons.add(lesson);
+    public static boolean viewLessons() {
+        if (lessonCatalog.isEmpty()) {
+            System.out.println("No lessons available in the catalog.");
+            return false;
+        }
+    
+        boolean hasOpenLessons = false;
+    
+        for (Lesson lesson : lessonCatalog) {
+            if (lesson.getIsOpen()) {
+                hasOpenLessons = true;
+                System.out.println("Lesson ID: " + lesson.getLessonId());
+                System.out.println("Activity: " + lesson.getActivity());
+                System.out.println("Date: " + lesson.getSchedule().getStartDate() + " - " + lesson.getSchedule().getEndDate());
+                System.out.println("Time: " + lesson.getSchedule().getStartTime() + " - " + lesson.getSchedule().getEndTime());
+                System.out.println("Space: " + lesson.getSpace().getAddress());
+                System.out.println("City: " + lesson.getSpace().getCity());
+                System.out.println("------------");
             }
         }
-        return publicLessons;
-    }
-
-    // Get all lessons for a specific activity (e.g., Yoga, Swimming)
-    public List<Lesson> getLessonsByActivity(String activity) {
-        List<Lesson> filteredLessons = new ArrayList<>();
-        for (Lesson lesson : lessons) {
-            if (lesson.getActivity().equalsIgnoreCase(activity)) {
-                filteredLessons.add(lesson);
-            }
+    
+        if (!hasOpenLessons) {
+            System.out.println("No open lessons available.");
         }
-        return filteredLessons;
+        return hasOpenLessons;
     }
-
-    // Get the number of lessons in the catalog
-    public int getLessonCount() {
-        return lessons.size();
-    }
-
-    @Override
-    public String toString() {
-        return "LessonCatalog{" +
-                "lessons=" + lessons +
-                '}';
-    }
+    
+    
 }

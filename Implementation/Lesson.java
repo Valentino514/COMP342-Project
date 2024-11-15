@@ -1,90 +1,98 @@
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 class Lesson {
     private String activity;
-    private Timeslot timeslot;
-    private Space space;
-    private String id;
-    private boolean isPublic = false;
-    private List<Offering> offerings; // List of offerings that belong to this lesson
-    private List<Instructor> instructors;
-
+    private Schedule schedule;
+    protected Space space;
+    private String lessonId;
+    private List<Offering> offerings;
+    private boolean isOpen;
+    private static int idCounter = 1;
     // Constructor
-    public Lesson(String activity, Timeslot timeslot, Space space, String id) {
+    public Lesson(String activity, Schedule schedule, Space space) {
         this.activity = activity;
-        this.timeslot = timeslot;
+        this.schedule = schedule;
         this.space = space;
-        this.id = id;
-        this.isPublic = false;
+        this.lessonId = generateUniqueId() ;
         this.offerings = new ArrayList<>();
-        this.instructors = new ArrayList<>();
+        this.isOpen = true;
     }
-
-    public Space getSpace() {
-        return space;
-    }
-
-    public Timeslot getTimeslot() {
-        return timeslot;
+    private static String generateUniqueId() {
+        return String.valueOf(idCounter++); 
     }
 
     public String getActivity() {
         return activity;
     }
 
-    public boolean getIsPublic() {
-        return isPublic;
+    public void setActivity(String activity){
+        this.activity =activity;
     }
 
-    public String getId() {
-        return id;
+    public Schedule getSchedule() {
+        return schedule;
     }
 
-    public void makeOfferingPublic() {
-        isPublic = true;
+    public void setSchedule(Schedule schedule){
+        this.schedule =schedule;
     }
 
-    // Method to add an offering to this lesson (composition)
-    public void addOffering(Offering offering) {
-        offerings.add(offering);
+    public Space getSpace() {
+        return space;
     }
 
-    // Create a new offering for this lesson
-    public Offering createOffering(String offeringId, Date date, Timeslot timeslot, String status) {
-        Offering newOffering = new Offering(this, offeringId, date, timeslot, status);
-        addOffering(newOffering);
-        return newOffering;
+    public void setSpace(Space space){
+        this.space =space;
     }
 
-    public List<Offering> getOfferings() {
-        return offerings;
+    public String getLessonId() {
+        return lessonId;
     }
 
-    public List<Instructor> getInstructors() {
-        return instructors;
+    public void setLessonId(String id){
+        this.lessonId =id;
     }
 
-    // Method to add an instructor to the offering
-    public void addInstructor(Instructor instructor) {
-        instructors.add(instructor);
+    public boolean getIsOpen(){
+        return isOpen;
     }
 
-    // Method to remove an instructor from the offering
-    public void removeInstructor(Instructor instructor) {
-        instructors.remove(instructor);
+    public void setIsOpen(boolean isOpen){
+        this.isOpen = isOpen;
+    }
+    
+        @Override
+        public boolean equals(Object obj) {
+        // Check if the object is the same as this instance
+        if (this == obj) {
+            return true;
+        }
+
+        // Check if the object is null or of a different class
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        // Cast the object to Lesson
+        Lesson other = (Lesson) obj;
+
+        // Compare all relevant fields
+        return Objects.equals(activity, other.activity) &&
+               Objects.equals(schedule, other.schedule) &&
+               Objects.equals(space, other.space) &&
+               Objects.equals(lessonId, other.lessonId) &&
+               isOpen == other.isOpen;
     }
 
-    @Override
-    public String toString() {
-        return "Lesson{" +
-                "activity='" + activity + '\'' +
-                ", timeslot=" + timeslot +
-                ", space=" + space +
-                ", id='" + id + '\'' +
-                ", isPublic=" + isPublic +
-                ", offerings=" + offerings +
-                '}';
+    public void printDetails() {
+        System.out.println("Activity: " + activity);
+        schedule.printSchedule(); 
+        System.out.println("  Address: " + space.getAddress());
+        System.out.println("  Type: " + space.getType());
+        System.out.println("  City: " + space.getCity());
+        System.out.println("Lesson ID: " + lessonId);
     }
+
 }
