@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class Instructor extends User {
     private String specialization;
-    private String name;
     private String phoneNumber;
     private ArrayList<String> cities;
     private ArrayList<Offering> offerings;
@@ -32,6 +31,10 @@ public class Instructor extends User {
             System.out.println(city + " is already in the list of cities.");
         }
     }
+    public void addLesson(Offering offering){
+        offerings.add(offering);
+    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -50,11 +53,11 @@ public class Instructor extends User {
         if (offerings.isEmpty()) {
             System.out.println("No offerings assigned to this instructor.");
         } else {
-            System.out.println("Offerings for Instructor: " + name);
+            System.out.println("Offerings for Instructor: " + this.getName());
             for (Offering offering : offerings) {
                 System.out.println("Activity: " + offering.getActivity());
-                System.out.println("Schedule: " + offering.getSchedule());
-                System.out.println("Space: " + offering.getSpace());
+                System.out.println("Schedule: " + offering.getSchedule().getStartDate()+ " - " +offering.getSchedule().getEndDate()+ " every "+ offering.getSchedule().getDay());
+                System.out.println("Space: " + offering.getSpace().getAddress() + ", " + offering.getSpace().getCity() + ", "+offering.getSpace().getType());
                 System.out.println("Lesson ID: " + offering.getLessonId());
                 System.out.println("-------------------------");
             }
@@ -62,7 +65,7 @@ public class Instructor extends User {
     }
     
     public void registerAvailability(String city, String availabilityDetails) {
-        System.out.println(name + " has registered availability in " + city + ": " + availabilityDetails);
+        System.out.println(this.getName() + " has registered availability in " + city + ": " + availabilityDetails);
     }
 
     public Organization getOrganization() {

@@ -23,6 +23,7 @@ public class Schedule {
         this.endTime = LocalTime.parse(endTime, timeFormatter);
         this.startDate = LocalDate.parse(startDate, dateFormatter);
         this.endDate = LocalDate.parse(endDate, dateFormatter);
+        this.lessons = new ArrayList<>();
         this.day = day;
         this.space = space;
     }
@@ -77,7 +78,10 @@ public class Schedule {
     }
 
     public List<Lesson> getLessons() {
-    return lessons;
+        if (lessons == null) {
+            lessons = new ArrayList<>();  // Initialize if null
+        }
+        return lessons;
     }
 
     // Check for conflicts with time and date
@@ -86,7 +90,7 @@ public class Schedule {
         boolean noDateOverlap = this.endDate.isBefore(other.startDate) || this.startDate.isAfter(other.endDate);
         boolean noTimeOverlap = this.endTime.isBefore(other.startTime) || this.startTime.isAfter(other.endTime);
         boolean dayOverlap = (this.getDay().equals(other.getDay()));
-        return noDateOverlap || noTimeOverlap || !dayOverlap;
+        return noDateOverlap || noTimeOverlap || dayOverlap;
     }
 
     public void printSchedule() {

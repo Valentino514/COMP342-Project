@@ -46,6 +46,8 @@ abstract class User {
             return "Admin";
         } else if (this instanceof UnderageClient) {
             return "UnderageClient";
+        } else if(this instanceof Instructor){
+            return "Instructor";
         }
         else{
             return "not signed in";

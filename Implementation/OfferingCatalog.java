@@ -8,6 +8,8 @@ public class OfferingCatalog {
     public static void generateOffering(String activity, Schedule schedule, Space space,Instructor instructor, boolean isPublic) {
         Offering newOffering = new Offering(activity,schedule,space,instructor,isPublic);
         offeringCatalog.add(newOffering);
+        instructor.addLesson(newOffering);
+        System.out.println("offering for instructor "+ instructor.getName() + " generated");
     }
 
     public static ArrayList<Offering> getOfferings() {

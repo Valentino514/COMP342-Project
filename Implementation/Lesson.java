@@ -88,7 +88,6 @@ class Lesson {
 
     public void printDetails() {
         System.out.println("Activity: " + activity);
-        System.out.println("Schedule: ");
         schedule.printSchedule(); 
         System.out.println("  Address: " + space.getAddress());
         System.out.println("  Type: " + space.getType());

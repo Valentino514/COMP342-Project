@@ -4,9 +4,9 @@ public class ScheduleCatalog {
     private static final ArrayList<Schedule> scheduleCatalog = new ArrayList<>();
 
     // Adds a new schedule to the catalog
-    //
     public static void addSchedule(Schedule schedule) {
         if(!checkScheduleConflict(schedule)){
+            System.out.println("schedule added:"+schedule.getSpace().getType());
             scheduleCatalog.add(schedule);
         }
         else{
@@ -33,6 +33,9 @@ public class ScheduleCatalog {
     public static boolean checkScheduleConflict(Schedule newSchedule) {
         for (Schedule existingSchedule : scheduleCatalog) {
             ArrayList<Space> existingSpaces = getSpacesForSchedule(existingSchedule);
+            if(existingSpaces == null){
+                return false;
+            }
 
             // Check if any of the spaces in the existing schedule match the spaceId
             for (Space space : existingSpaces) {

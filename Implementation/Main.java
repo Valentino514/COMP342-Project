@@ -5,13 +5,37 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
+
+        //*  TEMPORARY VALUES FOR TESTING
         Space space1 = new Space("Concordia", "pool", true, "montreal", 25);
         SpaceCatalog.addSpace(space1);
+
+        Schedule schedule2 = new Schedule("02:00", "05:00", "2000-12-24", "2011-12-24", space1, "monday");
+        ScheduleCatalog.addSchedule(schedule2);
 
         Space space2 = new Space("Mcgill", "tennis", false, "toronto", 40);
         SpaceCatalog.addSpace(space2);
 
+        Lesson lesson2= new Lesson("tennis", schedule2, space2);
+        LessonCatalog.addLesson(lesson2);
+
+        ArrayList<String> cities2 = new ArrayList<>();
+
+        cities2.add("mtl");
+        cities2.add("toronto");
+
+        Instructor instructor2 = new Instructor("coach", "john", "123", "514", cities2);
+        UserCatalog.addUser(instructor2);
+
+        Offering offer = new Offering("ping-pong", schedule2, space2, instructor2, true);
+
+        Client client2 = new Client("peter", "123", 15);
+        UserCatalog.addUser(client2);
+
         Admin admin = new Admin("admin", "qwert");
+        UserCatalog.addUser(admin);
+        //_________________________________________________________
+
 
         System.out.println("Do you have an account? (yes/no): ");
         String response = scanner.nextLine().trim().toLowerCase();
@@ -85,7 +109,7 @@ public class Main {
 
                             break;
                         case 2:
-                            OfferingCatalog.viewOfferings();
+                            LessonCatalog.viewLessons();
                             break;
                         case 3:
                             UserCatalog.viewUsers();
@@ -139,7 +163,7 @@ public class Main {
                     Instructor instructor = (Instructor) user;
                     System.out.println("Instructor / writer mode");
                     System.out.println("1. select a lesson to instruct");
-                    System.out.println("2. view my lessons");
+                    System.out.println("2. view my offerings");
                     System.out.println("3. Exit");
                     System.out.print("Choose an option: ");
                     int choice = scanner.nextInt();

@@ -42,7 +42,6 @@ class LessonCatalog {
                 }
                 lesson.setIsOpen(false);
                 OfferingCatalog.generateOffering(lesson.getActivity(),lesson.getSchedule(),lesson.getSpace(),instructor,isPublic);
-                scanner.close();
 
         }else{
             System.out.println("lesson located in city not in instructor's list of selected city");
@@ -89,6 +88,8 @@ class LessonCatalog {
             System.out.println("Activity: " + lesson.getActivity());
             System.out.println("Schedule: " + lesson.getSchedule().getStartDate() + " - " + lesson.getSchedule().getEndDate());
             System.out.println("Space: " + lesson.getSpace().getAddress());
+            System.out.println("City: " + lesson.getSpace().getCity());
+
             System.out.println("------------");
             }
         }
