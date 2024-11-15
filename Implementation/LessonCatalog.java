@@ -76,6 +76,7 @@ class LessonCatalog {
         return lessonCatalog;
     }
 
+    // View all the lessons created
     public static boolean viewLessons() {
         if (lessonCatalog.isEmpty()) {
             System.out.println("No lessons available in the catalog.");
