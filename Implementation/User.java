@@ -3,11 +3,16 @@ abstract class User {
     private String name;
     private String password;
     private String userId;
-
-    public User(String name, String password, String id) {
+    private static int idCounter = 1; 
+    
+    public User(String name, String password) {
         this.name = name;
         this.password = password;
-        this.userId = id;
+        this.userId = generateUniqueId();
+    }
+
+    private static String generateUniqueId() {
+        return String.valueOf(idCounter++); // Convert the counter to a String for userId
     }
 
     public String getName() {
@@ -32,6 +37,19 @@ abstract class User {
 
     public void setUserId(String id) {
         this.userId=id;
+    }
+
+    public String getUserType() {
+        if (this instanceof Client) {
+            return "Client";
+        } else if (this instanceof Admin) {
+            return "Admin";
+        } else if (this instanceof UnderageClient) {
+            return "UnderageClient";
+        }
+        else{
+            return "not signed in";
+        }
     }
 
 }

@@ -6,13 +6,13 @@ class Client extends User{
     private List<Offering> offerings; 
 
     // Constructor
-    public Client(String name, String password, String userId, int age) {
-        super(name, password,userId);
+    public Client(String name, String password, int age) {
+        super(name, password);
         this.age = age;
         this.offerings = new ArrayList<>(); // Initialize empty offerings list
     }
 
-    public List<Offering> getofferings() {
+    public List<Offering> getOfferings() {
         return offerings;
     }
     public int getAge() {
@@ -26,6 +26,7 @@ class Client extends User{
     public void addOffering(Offering offering) {
         if(offering.addClient(this)){
         offerings.add(offering);
+        System.out.println("offering added to client "+ this.getName() + "successfully");
         }
         else{
             System.out.println("error adding booking since it is full");

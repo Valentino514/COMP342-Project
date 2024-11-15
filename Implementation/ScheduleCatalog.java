@@ -4,8 +4,15 @@ public class ScheduleCatalog {
     private static final ArrayList<Schedule> scheduleCatalog = new ArrayList<>();
 
     // Adds a new schedule to the catalog
+    //
     public static void addSchedule(Schedule schedule) {
-        scheduleCatalog.add(schedule);
+        if(!checkScheduleConflict(schedule)){
+            scheduleCatalog.add(schedule);
+        }
+        else{
+            System.out.println("error: schedule conflicts with another schedule for the same space id: "+ schedule.getSpace().getSpaceId());
+        }
+
     }
 
     // Get all spaces associated with a given schedule
@@ -23,13 +30,13 @@ public class ScheduleCatalog {
     }
 
     // Check if the new schedule conflicts with any existing schedules for the same space
-    public static boolean checkScheduleConflict(Schedule newSchedule, String spaceId) {
+    public static boolean checkScheduleConflict(Schedule newSchedule) {
         for (Schedule existingSchedule : scheduleCatalog) {
             ArrayList<Space> existingSpaces = getSpacesForSchedule(existingSchedule);
 
             // Check if any of the spaces in the existing schedule match the spaceId
             for (Space space : existingSpaces) {
-                if (space.getSpaceId().equals(spaceId)) {
+                if (space.getSpaceId().equals(newSchedule.getSpace().getSpaceId())) {
                     // If a schedule is found in the same space, check for time and date conflicts
                     if (!existingSchedule.timeslotAvailable(newSchedule)) {
                         return true;// if we find a conflict
@@ -38,5 +45,15 @@ public class ScheduleCatalog {
             }
         }
         return false;//return false otherwise
+    }
+
+    public static void printSpaceSchedule(String spaceId){
+        for(Schedule schedule: scheduleCatalog){
+            if(schedule.getSpace().getSpaceId().equals(spaceId)){
+                schedule.printSchedule();
+            }
+
+        }
+
     }
 }

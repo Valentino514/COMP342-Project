@@ -8,13 +8,13 @@ public class Instructor extends User {
     private ArrayList<Offering> offerings;
     private Organization organization;
 
-    public Instructor(String specialization, String name, String password, String userId, String phoneNumber, Organization organization, ArrayList<String> cities) {
-        super(name, password, userId);
+    public Instructor(String specialization, String name, String password, String phoneNumber, ArrayList<String> cities) {
+        super(name, password);
         this.specialization = specialization;
         this.phoneNumber = phoneNumber;
         this.offerings = new ArrayList<>();
-        this.cities = cities;  // Set the cities passed to the constructor
-        this.organization = organization;
+        this.cities = cities;
+        //this.organization = organization; maybe add this later
     }
 
     public ArrayList<String> getCities() {
@@ -32,18 +32,11 @@ public class Instructor extends User {
             System.out.println(city + " is already in the list of cities.");
         }
     }
-
-    public String getName() {
-        return name;
-    }
     public String getPhoneNumber() {
         return phoneNumber;
     }
     public String getSpecialization() {
         return specialization;
-    }
-    public void setName(String name) {
-        this.name = name;
     }
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
@@ -51,7 +44,6 @@ public class Instructor extends User {
     }public void setSpecialization(String specialization) {
         this.specialization = specialization;
     }
-
 
     // Method to view assigned offerings
     public void viewAssignedOfferings() {

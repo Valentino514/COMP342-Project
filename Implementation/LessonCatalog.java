@@ -6,11 +6,11 @@ class LessonCatalog {
 
     public static void createLesson(String activity, Schedule schedule, String spaceId, String lessonId){
         Space space = SpaceCatalog.findSpace(spaceId);
-        boolean scheduleConflict = ScheduleCatalog.checkScheduleConflict(schedule, spaceId);
+        boolean scheduleConflict = ScheduleCatalog.checkScheduleConflict(schedule);
         
         if (space != null && !scheduleConflict) {
             // Space found, create the lesson
-            Lesson newLesson = new Lesson(activity, schedule, space, lessonId);
+            Lesson newLesson = new Lesson(activity, schedule, space);
             addLesson(newLesson);
             System.out.println("Lesson created successfully with space: " + space.getAddress());
         } else if(scheduleConflict){
@@ -41,7 +41,7 @@ class LessonCatalog {
                     isPublic = true;
                 }
                 lesson.setIsOpen(false);
-                OfferingCatalog.generateOffering(lesson.getActivity(),lesson.getSchedule(),lesson.getSpace(),lesson.getLessonId(),instructor,isPublic);
+                OfferingCatalog.generateOffering(lesson.getActivity(),lesson.getSchedule(),lesson.getSpace(),instructor,isPublic);
                 scanner.close();
 
         }else{

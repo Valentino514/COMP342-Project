@@ -3,8 +3,8 @@ public class UnderageClient extends Client {
     private String guardianName;
     private String guardianPhone;
 
-    public UnderageClient(String name, String password, String userId, String guardianName, String guardianPhone, int age) {
-        super(name, password, userId, age); 
+    public UnderageClient(String name, String password, String guardianName, String guardianPhone, int age) {
+        super(name, password, age); 
         this.guardianName = guardianName;
         this.guardianPhone = guardianPhone;
     }

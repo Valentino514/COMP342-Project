@@ -9,17 +9,23 @@ public class Space {
     private String city;
     private String spaceId;
     private ArrayList<Lesson> lessons;
+    private static int idCounter = 1;
 
 
-    public Space(String address,String type, boolean isRented, String city, int personLimit, String spaceId) {
+    public Space(String address,String type, boolean isRented, String city, int personLimit) {
         this.address = address;
         this.type =type;
         this.isRented = isRented;
         this.city = city;
         this.personLimit = personLimit;
-        this.spaceId = spaceId;
+        this.spaceId = generateUniqueId();
         this.lessons = new ArrayList<>();
     }
+
+    private static String generateUniqueId() {
+        return String.valueOf(idCounter++); 
+    }
+
     public String getAddress() {
         return address;
     }

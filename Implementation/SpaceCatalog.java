@@ -15,13 +15,12 @@ public class SpaceCatalog {
 
 
     //checks if space exists
-    public static boolean spaceExists(String address) {
+    public static boolean spaceExists(String id) {
         for (Space space : spaceCatalog) {
-            if (space.getAddress().equals(address)) {
+            if (space.getSpaceId().equals(id)) {
                 return true;
             }
         }
-        System.out.println("space does not exist");
         return false;
     }
 
@@ -31,6 +30,7 @@ public class SpaceCatalog {
             System.out.println("No spaces available in the catalog.");
         } else {
             for (Space space : spaceCatalog) {
+                System.out.println("id: " + space.getSpaceId());
                 System.out.println("Address: " + space.getAddress());
                 System.out.println("Type: " + space.getType());
                 System.out.println("City: " + space.getCity());

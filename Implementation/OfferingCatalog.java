@@ -5,8 +5,8 @@ public class OfferingCatalog {
 
 
 
-    public static void generateOffering(String activity, Schedule schedule, Space space, String lessonId,Instructor instructor, boolean isPublic) {
-        Offering newOffering = new Offering(activity,schedule,space,lessonId,instructor,isPublic);
+    public static void generateOffering(String activity, Schedule schedule, Space space,Instructor instructor, boolean isPublic) {
+        Offering newOffering = new Offering(activity,schedule,space,instructor,isPublic);
         offeringCatalog.add(newOffering);
     }
 
@@ -33,6 +33,14 @@ public class OfferingCatalog {
             }
     }
 
-
-
+    public static Offering findOffering(String offeringId) {
+        for (Offering offering : offeringCatalog) {
+            if (offering.getLessonId().equals(offeringId)) {
+                return offering; 
+            }
+        }
+        System.out.println("Offering not found with ID: " + offeringId);
+        return null;
+    }
 }
+

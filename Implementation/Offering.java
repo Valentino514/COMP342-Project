@@ -8,8 +8,8 @@ class Offering extends Lesson{
     private List<Client> clients;
 
     // Constructor
-    public Offering(String activity, Schedule schedule, Space space, String lessonId, Instructor instructor, boolean isPublic){
-        super(activity,schedule,space,lessonId);
+    public Offering(String activity, Schedule schedule, Space space, Instructor instructor, boolean isPublic){
+        super(activity,schedule,space);
         this.bookingAmmount = 0;
         this.instructor = instructor;
         this.isPublic = isPublic;

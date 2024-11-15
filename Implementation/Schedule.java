@@ -11,6 +11,7 @@ public class Schedule {
     private LocalDate endDate;
     private String day;
     private ArrayList<Lesson> lessons;
+    private Space space;
 
     // Format times and dates
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
@@ -23,9 +24,18 @@ public class Schedule {
         this.startDate = LocalDate.parse(startDate, dateFormatter);
         this.endDate = LocalDate.parse(endDate, dateFormatter);
         this.day = day;
+        this.space = space;
     }
 
-    // Getter methods
+    //getters and setters
+    public Space getSpace(){
+        return space;
+    }
+
+    public void setSpace(Space space){
+        this.space=space;
+    }
+
     public LocalTime getStartTime() {
         return startTime;
     }
@@ -46,7 +56,6 @@ public class Schedule {
         return day;
     }
 
-    // Setter methods
     public void setStartTime(String startTime) {
         this.startTime = LocalTime.parse(startTime, timeFormatter);
     }
@@ -76,6 +85,18 @@ public class Schedule {
         // Check if the date/time don't overlap
         boolean noDateOverlap = this.endDate.isBefore(other.startDate) || this.startDate.isAfter(other.endDate);
         boolean noTimeOverlap = this.endTime.isBefore(other.startTime) || this.startTime.isAfter(other.endTime);
-        return noDateOverlap || noTimeOverlap;
+        boolean dayOverlap = (this.getDay().equals(other.getDay()));
+        return noDateOverlap || noTimeOverlap || !dayOverlap;
     }
+
+    public void printSchedule() {
+        System.out.println("Schedule Details:");
+        System.out.println("Day: " + day);
+        System.out.println("Start Date: " + startDate.format(dateFormatter));
+        System.out.println("End Date: " + endDate.format(dateFormatter));
+        System.out.println("Start Time: " + startTime.format(timeFormatter));
+        System.out.println("End Time: " + endTime.format(timeFormatter));
+        System.out.println("---------------------------------");
+    }
+    
 }

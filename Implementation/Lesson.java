@@ -9,14 +9,18 @@ class Lesson {
     private String lessonId;
     private List<Offering> offerings;
     private boolean isOpen;
+    private static int idCounter = 1;
     // Constructor
-    public Lesson(String activity, Schedule schedule, Space space, String lessonId) {
+    public Lesson(String activity, Schedule schedule, Space space) {
         this.activity = activity;
         this.schedule = schedule;
         this.space = space;
-        this.lessonId = lessonId;
+        this.lessonId = generateUniqueId() ;
         this.offerings = new ArrayList<>();
         this.isOpen = true;
+    }
+    private static String generateUniqueId() {
+        return String.valueOf(idCounter++); 
     }
 
     public String getActivity() {
@@ -80,6 +84,16 @@ class Lesson {
                Objects.equals(space, other.space) &&
                Objects.equals(lessonId, other.lessonId) &&
                isOpen == other.isOpen;
+    }
+
+    public void printDetails() {
+        System.out.println("Activity: " + activity);
+        System.out.println("Schedule: ");
+        schedule.printSchedule(); 
+        System.out.println("  Address: " + space.getAddress());
+        System.out.println("  Type: " + space.getType());
+        System.out.println("  City: " + space.getCity());
+        System.out.println("Lesson ID: " + lessonId);
     }
 
 }
