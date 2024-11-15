@@ -79,15 +79,12 @@ public class Instructor extends User {
         System.out.println(this.getName() + " has registered availability in " + city + ": " + availabilityDetails);
     }
 
-    @Override
-    public String toString() {
-        return "Instructor{" +
-                "name='" + name + '\'' +
-                ", specialization='" + specialization + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", organization=" + (organization != null ? organization.getName() : "None") +
-                ", assignedOfferings=" + assignedOfferings +
-                ", selectedOfferings=" + selectedOfferings +
-                '}';
+    public Organization getOrganization() {
+        return organization;
     }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
+    }
+
 }
