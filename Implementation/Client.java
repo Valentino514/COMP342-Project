@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 class Client extends User{
     private int age;
-    private ArrayList<Offering> offerings; 
+    protected ArrayList<Offering> offerings; 
 
     // Constructor
     public Client(String name, String password, int age) {
@@ -28,7 +28,7 @@ class Client extends User{
         System.out.println("offering added to client "+ this.getName() + " successfully");
         }
         else{
-            System.out.println("error adding booking since it is full");
+            System.out.println("error booking this offer");
         }
     }
 

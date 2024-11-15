@@ -51,7 +51,6 @@ class Offering extends Lesson{
             return true;
         }
         else {
-            System.out.println("error booking this offer.");
             return false;
         }
     }
