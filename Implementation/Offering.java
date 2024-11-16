@@ -78,10 +78,6 @@ public class Offering {
         return clients;
     }
 
-    public List<Instructor> getInstructors() {
-        return instructors;
-    }
-
     //Adding a client to the offering
     public boolean addClient(Client client) {
         if ((getCapacity() > bookingAmount) && !clients.contains(client)) {

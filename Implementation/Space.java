@@ -25,7 +25,6 @@ public class Space {
         return address;
     }
 
-    // Getter for type
     public String getType() {
         return type;
     }
