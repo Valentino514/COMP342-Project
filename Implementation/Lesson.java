@@ -11,7 +11,7 @@ class Lesson {
     private boolean isOpen;
     private static int idCounter = 1;
 
-    // Constructor
+    // Constructor for lesson
     public Lesson(String activity, Schedule schedule, Space space) {
         this.activity = activity;
         this.schedule = schedule;
@@ -21,61 +21,60 @@ class Lesson {
         this.isOpen = true;
     }
 
-    // Giving different ids
+    //Giving different ids
     private static String generateUniqueId() {
         return String.valueOf(idCounter++); 
     }
 
-    // get the activity 
+    //getters and setters
     public String getActivity() {
         return activity;
     }
 
-    // setting up an activity
+
     public void setActivity(String activity){
         this.activity =activity;
     }
 
-    // getting the schedule
+
     public Schedule getSchedule() {
         return schedule;
     }
 
-    // setting up the schedule
+
     public void setSchedule(Schedule schedule){
         this.schedule =schedule;
     }
 
-    // getting the space
+
     public Space getSpace() {
         return space;
     }
 
-    // setting up the space
+
     public void setSpace(Space space){
         this.space =space;
     }
 
-    // getting the LessonId
     public String getLessonId() {
         return lessonId;
     }
 
-    // setting up the Lessonid
     public void setLessonId(String id){
         this.lessonId =id;
     }
 
-    // Returns the current open status of the lesson.
+    //Returns the current open status of the lesson (isOpen means the instructors can select it)
     public boolean getIsOpen(){
         return isOpen;
     }
 
-    // Sets the open status of the lesson.
+    //Sets the open status of the lesson.
     public void setIsOpen(boolean isOpen){
         this.isOpen = isOpen;
     }
-    
+
+        //equals method to compare lessons
         @Override
         public boolean equals(Object obj) {
         // Check if the object is the same as this instance
@@ -83,15 +82,13 @@ class Lesson {
             return true;
         }
 
-        // Check if the object is null or of a different class
+   
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
 
-        // Cast the object to Lesson
         Lesson other = (Lesson) obj;
 
-        // Compare all relevant fields
         return Objects.equals(activity, other.activity) &&
                Objects.equals(schedule, other.schedule) &&
                Objects.equals(space, other.space) &&
@@ -99,7 +96,7 @@ class Lesson {
                isOpen == other.isOpen;
     }
 
-    // Printing all informations
+    //print info of lesson
     public void printDetails() {
         System.out.println("Activity: " + activity);
         schedule.printSchedule(); 

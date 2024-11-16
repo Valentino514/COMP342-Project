@@ -8,13 +8,13 @@ public class OrganizationCatalog {
         this.organizations = new ArrayList<>();
     }
 
-    // Method to add an organization to the catalog
+    //add an organization
     public void addOrganization(Organization organization) {
         organizations.add(organization);
         System.out.println(organization.getName() + " has been added to the catalog.");
     }
 
-    // Method to remove an organization from the catalog
+    //remove an organization
     public void removeOrganization(Organization organization) {
         if (organizations.remove(organization)) {
             System.out.println(organization.getName() + " has been removed from the catalog.");
@@ -23,7 +23,7 @@ public class OrganizationCatalog {
         }
     }
 
-    // Method to view all organizations in the catalog
+    //view all organization
     public void viewOrganizations() {
         System.out.println("Organizations in the Catalog:");
         for (Organization organization : organizations) {
@@ -31,7 +31,7 @@ public class OrganizationCatalog {
         }
     }
 
-    // Method to get the list of organizations
+    //get the list of organizations
     public ArrayList<Organization> getOrganizations() {
         return organizations;
     }

@@ -1,6 +1,6 @@
 public class Admin extends User {
     
-    // constructor
+    // constructor for admin class (extends user)
     public Admin(String name, String password) {
         super(name, password);
     }

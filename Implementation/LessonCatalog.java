@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class LessonCatalog {
 
-    // Creates a lesson
+    //Create a lesson
     public static void createLesson(String activity, Schedule schedule, String spaceId, String lessonId) {
         Space space = SpaceCatalog.findSpace(spaceId);
     
@@ -25,17 +25,17 @@ public class LessonCatalog {
                 stmt.setBoolean(4, true);
                 stmt.executeUpdate();
     
-                // Get generated lesson_id
+                //Get generated lesson_id
                 rs = stmt.getGeneratedKeys();
                 if (rs.next()) {
                     int lessonIdGenerated = rs.getInt(1);
                     System.out.println("Lesson created successfully with ID: " + lessonIdGenerated);
                 }
     
-                conn.commit(); // Commit transaction
+                conn.commit(); //Commit
             } catch (SQLException e) {
                 try {
-                    conn.rollback(); // Rollback in case of error
+                    conn.rollback();//in case error occurs
                     System.out.println("Transaction rolled back due to error");
                 } catch (SQLException ex) {
                     ex.printStackTrace();
@@ -45,7 +45,7 @@ public class LessonCatalog {
                 try {
                     if (rs != null) rs.close();
                     if (stmt != null) stmt.close();
-                    conn.setAutoCommit(true); // Restore default auto-commit behavior
+                    conn.setAutoCommit(true);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -56,7 +56,7 @@ public class LessonCatalog {
     }
     
 
-    // Register for a lesson by a specific instructor
+    //Register for a lesson by a specific instructor
     public static void takeLesson(Instructor instructor, String lessonId) {
         Lesson lesson = findLessonById(lessonId);
         if (lesson == null) {
@@ -76,7 +76,6 @@ public class LessonCatalog {
             } else {
                 isPublic = true;
             }
-    
             // Set lesson isOpen to FALSE (no longer open to instructors)
             lesson.setIsOpen(false);
             updateLessonIsOpen(lesson);
@@ -88,7 +87,7 @@ public class LessonCatalog {
             System.out.println("Lesson located in city not in instructor's list of selected cities");
         }
     }
-    
+    //changes the status of the lesson (isOpen false means the lesson can no longer be selected by user)
     private static void updateLessonIsOpen(Lesson lesson) {
         Connection conn = DatabaseConnection.getConnection();
         PreparedStatement stmt = null;
@@ -110,28 +109,28 @@ public class LessonCatalog {
     }
     
 
-    private static void updateSpacePersonLimit(Space space) {
-        Connection conn = DatabaseConnection.getConnection();
-        PreparedStatement stmt = null;
-        try {
-            String updateSpaceSQL = "UPDATE spaces SET person_limit = ? WHERE space_id = ?";
-            stmt = conn.prepareStatement(updateSpaceSQL);
-            stmt.setInt(1, space.getPersonLimit());
-            stmt.setInt(2, Integer.parseInt(space.getSpaceId()));
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+    // private static void updateSpacePersonLimit(Space space) {
+    //     Connection conn = DatabaseConnection.getConnection();
+    //     PreparedStatement stmt = null;
+    //     try {
+    //         String updateSpaceSQL = "UPDATE spaces SET person_limit = ? WHERE space_id = ?";
+    //         stmt = conn.prepareStatement(updateSpaceSQL);
+    //         stmt.setInt(1, space.getPersonLimit());
+    //         stmt.setInt(2, Integer.parseInt(space.getSpaceId()));
+    //         stmt.executeUpdate();
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     } finally {
+    //         try {
+    //             if (stmt != null) stmt.close();
+    //         } catch (SQLException e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
+    // }
     
     
-    
+    //find a lesson based on the activity
     public static Lesson findLessonByActivity(String activity) {
         Connection conn = DatabaseConnection.getConnection();
         PreparedStatement stmt = null;
@@ -162,7 +161,7 @@ public class LessonCatalog {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return null; // No lesson found with the given activity
+            return null;
         } finally {
             try {
                 if (rs != null) rs.close();
@@ -174,7 +173,7 @@ public class LessonCatalog {
     }
 
 
-    // Find a lesson by ID
+    //Find a lesson by ID
     public static Lesson findLessonById(String lessonId) {
         Connection conn = DatabaseConnection.getConnection();
         PreparedStatement stmt = null;
@@ -217,7 +216,7 @@ public class LessonCatalog {
     }
     
 
-    // View all the lessons created
+    //View all the lessons created
     public static boolean viewLessons() {
         Connection conn = DatabaseConnection.getConnection();
         Statement stmt = null;

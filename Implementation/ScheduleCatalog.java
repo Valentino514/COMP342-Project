@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class ScheduleCatalog {
 
-    // Adds a new schedule to the catalog
+    //Add new schedule to the catalog
     public static void addSchedule(Schedule schedule) {
         if (!checkScheduleConflict(schedule)) {
             Connection conn = DatabaseConnection.getConnection();
@@ -76,15 +76,14 @@ public class ScheduleCatalog {
     
                 // Check for conflict
                 if (!existingSchedule.timeslotAvailable(newSchedule)) {
-                    System.out.println("Conflict detected with schedule ID: " + existingSchedule.getScheduleId());
-                    return true; // Conflict exists
+                    return true;
                 }
             }
-            return false; // No conflicts
+            return false;
     
         } catch (SQLException e) {
             e.printStackTrace();
-            return false; // Assume no conflict on error
+            return false;
         } finally {
             try {
                 if (rs != null) rs.close();
@@ -96,7 +95,7 @@ public class ScheduleCatalog {
     }
     
 
-    // Print schedules for a specific space
+    //Print schedules for a specific space
     public static void printSpaceSchedule(String spaceId) {
         Connection conn = DatabaseConnection.getConnection();
         PreparedStatement stmt = null;
@@ -165,7 +164,7 @@ public class ScheduleCatalog {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return null; // Assume no schedule found on error
+            return null; 
         } finally {
             try {
                 if (rs != null) rs.close();

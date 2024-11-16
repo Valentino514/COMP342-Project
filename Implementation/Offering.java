@@ -9,7 +9,7 @@ public class Offering {
     private boolean isOpen;
     private ArrayList<Client> clients;
 
-    // Constructor
+    // Constructor for offerings
     public Offering(Lesson lesson, Instructor instructor, boolean isPublic) {
         this.lesson = lesson;
         this.instructor = instructor;
@@ -19,17 +19,16 @@ public class Offering {
         this.clients = new ArrayList<>();
     }
 
-    // Getter for lesson
+    //getters and setters
     public Lesson getLesson() {
         return lesson;
     }
 
-    // Setter for lesson (if needed)
+ 
     public void setLesson(Lesson lesson) {
         this.lesson = lesson;
     }
 
-    // Getters and Setters for instructor
     public Instructor getInstructor() {
         return instructor;
     }
@@ -65,7 +64,7 @@ public class Offering {
         this.offeringId = offeringId;
     }
 
-    // Getters and Setters for isOpen
+
     public boolean getIsOpen(){
         return isOpen;
     }
@@ -79,7 +78,7 @@ public class Offering {
         return clients;
     }
 
-    // Adding a client to the offering
+    //Adding a client to the offering
     public boolean addClient(Client client) {
         if ((getCapacity() > bookingAmount) && !clients.contains(client)) {
             clients.add(client);

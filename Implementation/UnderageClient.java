@@ -35,7 +35,7 @@ public class UnderageClient extends Client {
         return super.getName() + " (Underage)";
     }
 
-    // printing Guardian informations
+    // print Guardian informations
     public void displayGuardianInfo() {
         System.out.println("Guardian Name: " + guardianName);
         System.out.println("Guardian Phone: " + guardianPhone);

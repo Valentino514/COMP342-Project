@@ -33,7 +33,7 @@ public class Schedule {
         this.space = space;
     }
     
-
+//getters and setters
     public String getScheduleId() {
         return scheduleId;
     }
@@ -93,7 +93,7 @@ public class Schedule {
 
     public List<Lesson> getLessons() {
         if (lessons == null) {
-            lessons = new ArrayList<>();  // Initialize if null
+            lessons = new ArrayList<>(); 
         }
         return lessons;
     }
@@ -111,7 +111,7 @@ public class Schedule {
     }
     
 
-    // Printing the schedule
+    // print the schedule
     public void printSchedule() {
         System.out.println("Schedule Details:");
         System.out.println("Day: " + day);

@@ -8,16 +8,14 @@ public class Main {
         Admin admin = new Admin("admin", "qwert");
         UserCatalog.addUser(admin);
 
-        //_________________________________________________________
-
-        boolean logout = false; // Logout flag
+        boolean logout = false; 
         Scanner scanner = new Scanner(System.in);
-        while (true) { // Main application loop
+        while (true) { 
             logout = false; 
-
+            //asks the user if he has an account
             System.out.println("Do you have an account? (yes/no): ");
             String response = scanner.nextLine().trim().toLowerCase();
-
+            //checks input
             if (response.equals("yes")) {
                 User user = null;
                 boolean signedIn = false;
@@ -37,8 +35,8 @@ public class Main {
                         System.out.println("Error finding user. Try again.");
                     }
                 }
-
-                while (!logout) {// Run until user logs out
+                //if user signs in as admin
+                while (!logout) {//Run until user logs out
                     if (user.getUserType().equals("Admin")) {
                         System.out.println("ADMIN / writer mode");
                         System.out.println("1. Create a new lesson");
@@ -73,12 +71,11 @@ public class Main {
 
                         Schedule schedule = new Schedule(startTime, endTime, startDate, endDate, SpaceCatalog.findSpace(id), day);
 
-                        // Check for schedule conflicts before adding
+                        //Check for schedule conflicts before adding
                         if (!ScheduleCatalog.checkScheduleConflict(schedule)) {
-                            // No conflict, add the schedule
                             ScheduleCatalog.addSchedule(schedule);
 
-                            // Proceed to create the lesson
+                            //create the lesson
                             System.out.println("Creating lesson...");
                             LessonCatalog.createLesson(activity, schedule, id,null);
                         } else {
@@ -107,6 +104,7 @@ public class Main {
                             default:
                                 System.out.println("Invalid option. Please try again.");
                         }
+                        //if user signs in as client or underage client
                     } else if (user.getUserType().equals("Client") || user.getUserType().equals("UnderageClient")) {
                         Client client = (Client) user;
                         System.out.println("Client / reader mode");
@@ -119,7 +117,7 @@ public class Main {
 
                         switch (choice) {
                             case 1:
-                                // View offerings and check if there are any available to book
+                                //View offerings and check if there are any available to book
                                 if (!OfferingCatalog.viewClientOfferings(client)) {
                                     break; // exit case 1 if no offerings available
                                 }
@@ -127,7 +125,7 @@ public class Main {
                                 String offeringId = scanner.nextLine();
                                 Offering offering = OfferingCatalog.findOffering(offeringId);
 
-                                // Check if the offering is null (not found)
+                                //if the offering is not found
                                 if (offering == null) {
                                     System.out.println("Offering with ID " + offeringId + " not found. Please check the ID and try again.");
                                     break; // Exit case 1 if the offering is not found
@@ -151,6 +149,7 @@ public class Main {
                             default:
                                 System.out.println("Invalid option. Please try again.");
                         }
+                        // is the user signs in as instructor
                     } else if (user.getUserType().equals("Instructor")) {
                         Instructor instructor = (Instructor) user;
                         System.out.println("Instructor / writer mode");
@@ -165,7 +164,7 @@ public class Main {
                             case 1:
                                 // View lessons and check if there are any open lessons
                                 if (!LessonCatalog.viewLessons()) {
-                                    break; // Exit case 1 if no open lessons are available
+                                    break; 
                                 }
                                 System.out.println("Select lesson by typing the ID: ");
                                 String lessonChoice = scanner.nextLine();
@@ -183,6 +182,7 @@ public class Main {
                         }
                     }
                 }
+                //if user does not have an account
             } else if (response.equals("no")) {
                 boolean running = true;
 
@@ -197,9 +197,9 @@ public class Main {
 
                     switch (choice) {
                         case 1:
-                            // Implementing viewPublicOfferings method in OfferingCatalog
                             OfferingCatalog.viewPublicOfferings();
                             break;
+                            //create a new account
                         case 2:
                             System.out.println("Enter your name:");
                             String username = scanner.nextLine();
@@ -207,6 +207,7 @@ public class Main {
                             String password = scanner.nextLine();
                             System.out.println("Register as client or instructor?");
                             String userType = scanner.nextLine();
+                            //if account to be created is a client
                             if (userType.equalsIgnoreCase("client")) {
                                 System.out.println("Enter your age:");
                                 int age = scanner.nextInt();
@@ -223,6 +224,7 @@ public class Main {
                                     Client client = new Client(username, password, age);
                                     UserCatalog.addUser(client);
                                 }
+                                //if created account is an instructor
                             } else if (userType.equalsIgnoreCase("instructor")) {
                                 System.out.println("Enter your specialization:");
                                 String specialty = scanner.nextLine();
@@ -233,9 +235,9 @@ public class Main {
                                 while (true) {
                                     String city = scanner.nextLine();
                                     if (city.equalsIgnoreCase("done")) {
-                                        break; // Exit the loop
+                                        break; 
                                     }
-                                    // Add the city to the list if it's not "done"
+                                    // Add the city to the list until user types done
                                     cities.add(city);
                                 }
                                 Instructor instructor = new Instructor(specialty, username, password, phoneNumber, cities);
