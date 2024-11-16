@@ -3,16 +3,16 @@ import java.util.ArrayList;
 
 public class UserCatalog {
 
-    // Method to add a user
+    //add a user
     public static void addUser(User user) {
         if (user != null) {
             Connection conn = DatabaseConnection.getConnection();
             PreparedStatement userStmt = null;
             ResultSet rs = null;
             try {
-                conn.setAutoCommit(false); // Start transaction
+                conn.setAutoCommit(false); 
     
-                // Insert into 'users' table
+                // Insert into users table
                 String insertUserSQL = "INSERT INTO users (name, password, user_type) VALUES (?, ?, ?)";
                 userStmt = conn.prepareStatement(insertUserSQL, Statement.RETURN_GENERATED_KEYS);
                 userStmt.setString(1, user.getName());
@@ -42,7 +42,7 @@ public class UserCatalog {
                         int instructorId = -1;
                         if (instrRs.next()) {
                             instructorId = instrRs.getInt(1);
-                            ((Instructor) user).setInstructorId(String.valueOf(instructorId)); // Set instructorId
+                            ((Instructor) user).setInstructorId(String.valueOf(instructorId)); 
                         }
                         instrRs.close();
                         instrStmt.close();
@@ -70,7 +70,7 @@ public class UserCatalog {
                         clientStmt.executeUpdate();
                         clientStmt.close();
                     } else if (user instanceof Client) {
-                        // Insert into 'clients' table for regular Client
+                        // insert in client table
                         String insertClientSQL = "INSERT INTO clients (user_id, age) VALUES (?, ?)";
                         PreparedStatement clientStmt = conn.prepareStatement(insertClientSQL, Statement.RETURN_GENERATED_KEYS);
                         clientStmt.setInt(1, userId);
@@ -96,11 +96,11 @@ public class UserCatalog {
                     }
                 }
     
-                conn.commit(); // Commit transaction
+                conn.commit();
                 System.out.println("User " + user.getName() + " added to the system");
             } catch (SQLException e) {
                 try {
-                    conn.rollback(); // Rollback in case of error
+                    conn.rollback();
                     System.out.println("Transaction rolled back due to error");
                 } catch (SQLException ex) {
                     ex.printStackTrace();
@@ -110,7 +110,7 @@ public class UserCatalog {
                 try {
                     if (rs != null) rs.close();
                     if (userStmt != null) userStmt.close();
-                    conn.setAutoCommit(true); // Restore default auto-commit behavior
+                    conn.setAutoCommit(true);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -119,7 +119,7 @@ public class UserCatalog {
     }
     
 
-    // Method to remove a user
+    //remove a user
     public static boolean removeUser(String id) {
         Connection conn = DatabaseConnection.getConnection();
         PreparedStatement delStmt = null;
@@ -143,7 +143,7 @@ public class UserCatalog {
             rs.close();
             userTypeStmt.close();
 
-            // Delete from specialized tables based on user type
+            // delete from  tables based on user type
             if ("Client".equals(userType) || "UnderageClient".equals(userType)) {
                 String deleteClientSQL = "DELETE FROM clients WHERE user_id = ?";
                 PreparedStatement delClientStmt = conn.prepareStatement(deleteClientSQL);
@@ -151,7 +151,7 @@ public class UserCatalog {
                 delClientStmt.executeUpdate();
                 delClientStmt.close();
 
-                // Also, delete any bookings the client has
+                //delete any bookings the client has
                 String deleteBookingsSQL = "DELETE FROM offerings_clients WHERE client_id = ?";
                 PreparedStatement delBookingStmt = conn.prepareStatement(deleteBookingsSQL);
                 delBookingStmt.setInt(1, userId);
@@ -185,13 +185,13 @@ public class UserCatalog {
                 delAdminStmt.close();
             }
 
-            // Then delete from 'users' table
+            // delete from users table
             String deleteUserSQL = "DELETE FROM users WHERE user_id = ?";
             delStmt = conn.prepareStatement(deleteUserSQL);
             delStmt.setInt(1, userId);
             int rowsAffected = delStmt.executeUpdate();
 
-            conn.commit(); // Commit transaction
+            conn.commit(); 
 
             if (rowsAffected > 0) {
                 System.out.println("User deleted successfully");
@@ -219,7 +219,7 @@ public class UserCatalog {
         }
     }
 
-    // Method to retrieve a user by name and password
+    //get user by name and password
     public static User getUser(String name, String password) {
         Connection conn = DatabaseConnection.getConnection();
         PreparedStatement stmt = null;
@@ -263,7 +263,7 @@ public class UserCatalog {
                     instrRs.close();
                     instrStmt.close();
     
-                    // Load instructor's cities
+                    //Load instructors cities
                     if (instructorId != -1) {
                         ArrayList<String> cities = getInstructorCitiesByInstructorId(instructorId);
                         instructor.setCities(cities);
@@ -271,7 +271,6 @@ public class UserCatalog {
                     return instructor;
     
                 } else if (userType.equals("Client")) {
-                    // Fetch client details from 'clients' table
                     String clientQuery = "SELECT * FROM clients WHERE user_id = ?";
                     PreparedStatement clientStmt = conn.prepareStatement(clientQuery);
                     clientStmt.setInt(1, Integer.parseInt(userId));
@@ -280,12 +279,12 @@ public class UserCatalog {
                         int age = clientRs.getInt("age");
                         String clientId = clientRs.getString("client_id"); // Retrieve client_id
     
-                        // Create Client object
+                        //Create Client 
                         Client client = new Client(name, password, age);
                         client.setUserId(userId);
                         client.setClientId(clientId); // Set the clientId
     
-                        // Close resources
+
                         clientRs.close();
                         clientStmt.close();
     
@@ -297,7 +296,7 @@ public class UserCatalog {
                     }
     
                 } else if (userType.equals("UnderageClient")) {
-                    // Fetch underage client details from 'clients' table
+                    // get underage client details from clients table
                     String clientQuery = "SELECT * FROM clients WHERE user_id = ?";
                     PreparedStatement clientStmt = conn.prepareStatement(clientQuery);
                     clientStmt.setInt(1, Integer.parseInt(userId));
@@ -308,12 +307,11 @@ public class UserCatalog {
                         String guardianPhone = clientRs.getString("guardian_phone");
                         String clientId = clientRs.getString("client_id"); // Retrieve client_id
     
-                        // Create UnderageClient object
+                        //Create UnderageClient 
                         UnderageClient underageClient = new UnderageClient(name, password, guardianName, guardianPhone, age);
                         underageClient.setUserId(userId);
                         underageClient.setClientId(clientId); // Set the clientId
     
-                        // Close resources
                         clientRs.close();
                         clientStmt.close();
     
@@ -344,7 +342,7 @@ public class UserCatalog {
     }
     
 
-    
+    //find an instructor using his id
 public static Instructor getInstructorByInstructorId(String instructorId) {
     Connection conn = DatabaseConnection.getConnection();
     PreparedStatement stmt = null;
@@ -360,7 +358,7 @@ public static Instructor getInstructorByInstructorId(String instructorId) {
             String specialization = rs.getString("specialization");
             String phoneNumber = rs.getString("phone_number");
 
-            // Fetch user details
+            //user details
             String userQuery = "SELECT * FROM users WHERE user_id = ?";
             PreparedStatement userStmt = conn.prepareStatement(userQuery);
             userStmt.setInt(1, Integer.parseInt(userId));
@@ -409,7 +407,7 @@ public static Instructor getInstructorByInstructorId(String instructorId) {
 }
 
     
-
+    //get the instructors cities 
     public static ArrayList<String> getInstructorCitiesByInstructorId(int instructorId) {
         Connection conn = DatabaseConnection.getConnection();
         PreparedStatement stmt = null;
@@ -438,7 +436,7 @@ public static Instructor getInstructorByInstructorId(String instructorId) {
     
     
 
-    // Finding a specific user according to username and password
+    //find user with username and password
     public static boolean findUser(String username, String password) {
         Connection conn = DatabaseConnection.getConnection();
         PreparedStatement stmt = null;
@@ -450,7 +448,7 @@ public static Instructor getInstructorByInstructorId(String instructorId) {
             stmt.setString(2, password);
             rs = stmt.executeQuery();
 
-            return rs.next(); // Returns true if user is found
+            return rs.next();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -465,7 +463,7 @@ public static Instructor getInstructorByInstructorId(String instructorId) {
         }
     }
 
-    // Viewing all users already created
+    //view created users
     public static void viewUsers() {
         Connection conn = DatabaseConnection.getConnection();
         Statement stmt = null;
@@ -497,6 +495,7 @@ public static Instructor getInstructorByInstructorId(String instructorId) {
             }
         }
     }
+    //find a user using his id
     public static User getUserById(String userId) {
         Connection conn = DatabaseConnection.getConnection();
         PreparedStatement stmt = null;

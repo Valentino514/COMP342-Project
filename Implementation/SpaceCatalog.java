@@ -26,11 +26,11 @@ public class SpaceCatalog {
                 space.setSpaceId(String.valueOf(spaceId));
             }
 
-            conn.commit(); // Commit transaction
+            conn.commit(); 
             System.out.println("Space added: " + space.getAddress());
         } catch (SQLException e) {
             try {
-                conn.rollback(); // Rollback in case of error
+                conn.rollback(); 
                 System.out.println("Transaction rolled back due to error");
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -40,7 +40,7 @@ public class SpaceCatalog {
             try {
                 if (rs != null) rs.close();
                 if (stmt != null) stmt.close();
-                conn.setAutoCommit(true); // Restore default auto-commit behavior
+                conn.setAutoCommit(true);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -92,7 +92,7 @@ public class SpaceCatalog {
                     System.out.println("Type: " + rs.getString("type"));
                     System.out.println("City: " + rs.getString("city"));
                     System.out.println("Is Rented: " + rs.getBoolean("is_rented"));
-                    System.out.println("Person Limi: " + rs.getInt("person_limit"));
+                    System.out.println("Person Limit: " + rs.getInt("person_limit"));
                     System.out.println("---------------------------------");
                 }
             }

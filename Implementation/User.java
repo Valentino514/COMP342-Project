@@ -4,14 +4,14 @@ abstract class User {
     private String password;
     private String userId;
     private static int idCounter = 1; 
-    
+    //constructor
     public User(String name, String password) {
         this.name = name;
         this.password = password;
         this.userId = generateUniqueId();
     }
 
-    // Generating different userIds of the space
+    // different userIds
     private static String generateUniqueId() {
         return String.valueOf(idCounter++); // Convert the counter to a String for userId
     }
@@ -41,7 +41,7 @@ abstract class User {
         this.userId=id;
     }
 
-    // Getting the user type whether the user is admin, instructor or Client
+    // get the user type whether the user is admin, instructor or Client
     public String getUserType() {
         if (this instanceof Client) {
             return "Client";

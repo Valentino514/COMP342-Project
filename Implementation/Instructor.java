@@ -8,7 +8,7 @@ public class Instructor extends User {
     private Organization organization;
     private String instructorId;
 
-    // Constructors
+    // Constructor for instructor (extends user)
     public Instructor(String specialization, String name, String password, String phoneNumber, ArrayList<String> cities) {
         super(name, password);
         this.specialization = specialization;
@@ -24,27 +24,52 @@ public class Instructor extends User {
         this.cities = new ArrayList<>();
     }
 
-    // getting InstructorId
+        // Get the list of all cities
+        public ArrayList<String> getCities() {
+            return cities;
+        }
+    //getters and setters
     public String getInstructorId() {
         return instructorId;
     }
 
-    // setting instructorId
     public void setInstructorId(String instructorId) {
         this.instructorId = instructorId;
     }
 
-    // Get the list of all cities
-    public ArrayList<String> getCities() {
-        return cities;
-    }
 
-    // Set cities
+
     public void setCities(ArrayList<String> cities) {
         this.cities = cities;
     }
 
-    // Add a city
+        public String getPhoneNumber() {
+            return phoneNumber;
+        }
+    
+        public String getSpecialization() {
+            return specialization;
+        }
+    
+    
+        public void setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+        }
+    
+    
+        public void setSpecialization(String specialization) {
+            this.specialization = specialization;
+        }
+    
+        public Organization getOrganization() {
+            return organization;
+        }
+    
+        public void setOrganization(Organization organization) {
+            this.organization = organization;
+        }
+
+    //Add a city
     public void addCity(String city) {
         if (!cities.contains(city)) {
             cities.add(city);
@@ -56,26 +81,6 @@ public class Instructor extends User {
     // Add an offering
     public void addOffering(Offering offering) {
         offerings.add(offering);
-    }
-
-    // Get phone number
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    // Get specialization
-    public String getSpecialization() {
-        return specialization;
-    }
-
-    // Set phone number
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    // Set specialization
-    public void setSpecialization(String specialization) {
-        this.specialization = specialization;
     }
 
     // Method to view assigned offerings
@@ -106,19 +111,9 @@ public class Instructor extends User {
         }
     }
     
-    
     // Register availability
     public void registerAvailability(String city, String availabilityDetails) {
         System.out.println(this.getName() + " has registered availability in " + city + ": " + availabilityDetails);
     }
 
-    // Get organization
-    public Organization getOrganization() {
-        return organization;
-    }
-
-    // Set organization
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
-    }
 }

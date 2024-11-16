@@ -2,6 +2,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+
+//connection to the database
 public class DatabaseConnection {
     private static Connection connection = null;
 
@@ -10,8 +12,9 @@ public class DatabaseConnection {
             return connection;
         } else {
             String url = "jdbc:mysql://localhost:3306/organization";
-            String username = "root"; 
-            String password = "valentin21"; 
+             //username and password here
+            String username = "";
+            String password = ""; 
 
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver"); 

@@ -3,13 +3,13 @@ import java.util.ArrayList;
 
 public class OfferingCatalog {
 
-    // Generating a new offering
+    // generate a new offering
     public static void generateOffering(String activity, Schedule schedule, Space space, Instructor instructor, boolean isPublic) {
         Connection conn = DatabaseConnection.getConnection();
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
-            conn.setAutoCommit(false);// Start transaction
+            conn.setAutoCommit(false);
     
             // Insert into offerings table
             String insertOfferingSQL = "INSERT INTO offerings (lesson_id, instructor_id, booking_amount, is_public, is_open) VALUES (?, ?, ?, ?, ?)";
@@ -25,17 +25,16 @@ public class OfferingCatalog {
     
             stmt.executeUpdate();
     
-            // Optionally get generated offering_id
             rs = stmt.getGeneratedKeys();
             if (rs.next()) {
                 int offeringId = rs.getInt(1);
                 System.out.println("Offering created successfully with ID: " + offeringId);
             }
     
-            conn.commit(); // Commit transaction
+            conn.commit();
         } catch (SQLException e) {
             try {
-                conn.rollback(); // Rollback in case of error
+                conn.rollback();
                 System.out.println("Transaction rolled back due to error");
             } catch (SQLException ex) {
                 ex.printStackTrace();
@@ -45,13 +44,13 @@ public class OfferingCatalog {
             try {
                 if (rs != null) rs.close();
                 if (stmt != null) stmt.close();
-                conn.setAutoCommit(true); // Restore default auto-commit behavior
+                conn.setAutoCommit(true);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
     }
-
+    //find all offerings by the id of instructor
     public static ArrayList<Offering> getOfferingsByInstructorId(String instructorId) {
         ArrayList<Offering> offerings = new ArrayList<>();
         Connection conn = DatabaseConnection.getConnection();
@@ -70,13 +69,11 @@ public class OfferingCatalog {
                 boolean isPublic = rs.getBoolean("is_public");
                 boolean isOpen = rs.getBoolean("is_open");
     
-                // Retrieve the Lesson object
+                //Retrieve lesson and instructor object
                 Lesson lesson = LessonCatalog.findLessonById(lessonId);
-    
-                // Retrieve the Instructor object
                 Instructor instructor = UserCatalog.getInstructorByInstructorId(instructorId);
     
-                // Create the Offering object
+                // Create offering
                 Offering offering = new Offering(lesson, instructor, isPublic);
                 offering.setOfferingId(offeringId);
                 offering.setBookingAmount(bookingAmount);
@@ -97,9 +94,7 @@ public class OfferingCatalog {
         return offerings;
     }
     
-    
-    
-
+    //view all offerings that are open
     public static boolean viewPublicOfferings() {
         Connection conn = DatabaseConnection.getConnection();
         PreparedStatement stmt = null;
@@ -117,16 +112,13 @@ public class OfferingCatalog {
                     int offeringId = rs.getInt("offering_id");
                     System.out.println("Offering ID: " + offeringId);
 
-                    // Fetch additional details
                     int lessonId = rs.getInt("lesson_id");
                     int instructorId = rs.getInt("instructor_id");
                     int bookingAmount = rs.getInt("booking_amount");
                     boolean isPublic = rs.getBoolean("is_public");
 
-                    // Get Lesson Details
                     Lesson lesson = LessonCatalog.findLessonById(String.valueOf(lessonId));
 
-                    // Get Instructor Details
                     User user = UserCatalog.getUserById(String.valueOf(instructorId));
                     if (!(user instanceof Instructor)) {
                         System.out.println("Instructor not found for offering ID: " + offeringId);
@@ -134,7 +126,7 @@ public class OfferingCatalog {
                     }
                     Instructor instructor = (Instructor) user;
 
-                    // Display Offering Details
+                    //show offerings
                     System.out.println("Activity: " + lesson.getActivity());
                     System.out.println("Date: " + lesson.getSchedule().getStartDate() + " - " + lesson.getSchedule().getEndDate());
                     System.out.println("Time: " + lesson.getSchedule().getStartTime() + " - " + lesson.getSchedule().getEndTime());
@@ -166,7 +158,7 @@ public class OfferingCatalog {
         }
     }
 
-    // View updated Offerings
+    //View updated Offerings
     public static boolean viewClientOfferings(Client client) {
         Connection conn = DatabaseConnection.getConnection();
         PreparedStatement stmt = null;
@@ -187,7 +179,6 @@ public class OfferingCatalog {
                     int offeringId = rs.getInt("offering_id");
                     boolean clientHasBooked = clientHasBookedOffering(client.getClientId(), offeringId);
     
-                    // Fetch additional details
                     int lessonId = rs.getInt("lesson_id");
                     int instructorId = rs.getInt("instructor_id");
                     int bookingAmount = rs.getInt("booking_amount");
@@ -196,7 +187,6 @@ public class OfferingCatalog {
                     Lesson lesson = LessonCatalog.findLessonById(String.valueOf(lessonId));
                     Instructor instructor = UserCatalog.getInstructorByInstructorId(String.valueOf(instructorId));
     
-                    // Determine capacity
                     int capacity = isPublic ? lesson.getSpace().getPersonLimit() : 1;
                     int spaceLeft = capacity - bookingAmount;
     
@@ -239,7 +229,7 @@ public class OfferingCatalog {
         }
     }
     
-
+    //check if client has offering
     private static boolean clientHasBookedOffering(String clientId, int offeringId) {
         Connection conn = DatabaseConnection.getConnection();
         PreparedStatement stmt = null;
@@ -264,8 +254,6 @@ public class OfferingCatalog {
             }
         }
     }
-    
-    
     
 
     // Finding an offering according to offeringId
@@ -319,7 +307,7 @@ public class OfferingCatalog {
     }
     
 
-    // Additional method to handle client bookings
+    //handle client bookings
     public static boolean bookOffering(Client client, Offering offering) {
         Connection conn = DatabaseConnection.getConnection();
         PreparedStatement stmt = null;
@@ -330,7 +318,6 @@ public class OfferingCatalog {
                 return false;
             }
     
-            // Determine capacity
             int capacity = offering.getIsPublic() ? offering.getLesson().getSpace().getPersonLimit() : 1;
             int bookingAmount = offering.getBookingAmount();
     
@@ -365,7 +352,6 @@ public class OfferingCatalog {
                 offering.setIsOpen(false);
             }
     
-            System.out.println("Successfully booked the offering.");
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -378,6 +364,7 @@ public class OfferingCatalog {
             }
         }
     }
+    //find offerings of a client using the id
     public static ArrayList<Offering> getOfferingsByClientId(String clientId) {
         ArrayList<Offering> offerings = new ArrayList<>();
         Connection conn = DatabaseConnection.getConnection();
@@ -420,7 +407,7 @@ public class OfferingCatalog {
         return offerings;
     }
     
-    
+    //find any user with id
     public static User getUserById(String userId) {
         Connection conn = DatabaseConnection.getConnection();
         PreparedStatement stmt = null;

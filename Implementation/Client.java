@@ -5,35 +5,29 @@ public class Client extends User {
     private String clientId;
     protected ArrayList<Offering> offerings; 
 
-    // Constructor
+    // Constructor for client class (extends user)
     public Client(String name, String password, int age) {
         super(name, password);
         
         this.age = age;
         this.offerings = new ArrayList<>(); 
     }
-
+    //getters and setters
     public ArrayList<Offering> getOfferings() {
         return offerings;
     }
-
-
-    // Getting client ID
+    
     public String getClientId() {
         return clientId;
     }
-    
-    //Setting up Client ID
     public void setClientId(String clientId) {
         this.clientId = clientId;
     }
 
-    // Get the age of the client
     public int getAge() {
         return age;
     }
 
-    // Set the age of the client
     public void setAge(int age) {
         this.age = age;
     }
@@ -48,7 +42,7 @@ public class Client extends User {
         }
     }
 
-    // View all the offerings booked
+    // View all the offerings the client booked
     public void viewOfferings() {
         ArrayList<Offering> offerings = OfferingCatalog.getOfferingsByClientId(this.getClientId());
         if (offerings.isEmpty()) {
