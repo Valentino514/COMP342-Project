@@ -2,112 +2,121 @@ import java.util.ArrayList;
 
 public class Instructor extends User {
     private String specialization;
-    private String name;
     private String phoneNumber;
-    private ArrayList<Lesson> assignedOfferings;
-    private ArrayList<Offering> selectedOfferings;
+    private ArrayList<String> cities;
+    private ArrayList<Offering> offerings;
     private Organization organization;
+    private String instructorId;
 
-    // Constructor
-    public Instructor(String s, String n, String p, String password, Organization organization) {
-        super(n, password);
-        this.specialization = s;
-        this.name = n;
-        this.phoneNumber = p;
-        this.organization = organization;
-        this.assignedOfferings = new ArrayList<>();
-        this.selectedOfferings = new ArrayList<>();
-    }
-
-    // Getter methods
-    public String getName() {
-        return name;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public String getSpecialization() {
-        return specialization;
-    }
-
-    public Organization getOrganization() {
-        return organization;
-    }
-
-    // Setter methods
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setSpecialization(String specialization) {
+    // Constructor for instructor (extends user)
+    public Instructor(String specialization, String name, String password, String phoneNumber, ArrayList<String> cities) {
+        super(name, password);
         this.specialization = specialization;
+        this.phoneNumber = phoneNumber;
+        this.offerings = new ArrayList<>();
+        this.cities = cities;
+
     }
 
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
+    public Instructor(String name, String password) {
+        super(name, password);
+        this.offerings = new ArrayList<>();
+        this.cities = new ArrayList<>();
     }
 
-    // Method to view open offerings based on specialization
-    public void viewOpenOfferings(OfferingsCatalog offeringsCatalog) {
-        System.out.println("Open Offerings for " + name + ":");
-        for (Offering offering : offeringsCatalog.getOfferings()) {  // Corrected to Offering type
-            if (offering.getLesson().getIsPublic() && offering.getLesson().getActivity().equals(specialization)) {
-                System.out.println("ID: " + offering.getId() + ", Activity: " + offering.getLesson().getActivity() +
-                                   ", Space: " + offering.getLesson().getSpace().getAddress() +
-                                   ", Time: " + offering.getTimeslot().getStartTime() + " - " +
-                                   offering.getTimeslot().getEndTime());
+        // Get the list of all cities
+        public ArrayList<String> getCities() {
+            return cities;
+        }
+    //getters and setters
+    public String getInstructorId() {
+        return instructorId;
+    }
+
+    public void setInstructorId(String instructorId) {
+        this.instructorId = instructorId;
+    }
+
+
+
+    public void setCities(ArrayList<String> cities) {
+        this.cities = cities;
+    }
+
+        public String getPhoneNumber() {
+            return phoneNumber;
+        }
+    
+        public String getSpecialization() {
+            return specialization;
+        }
+    
+    
+        public void setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+        }
+    
+    
+        public void setSpecialization(String specialization) {
+            this.specialization = specialization;
+        }
+    
+        public Organization getOrganization() {
+            return organization;
+        }
+    
+        public void setOrganization(Organization organization) {
+            this.organization = organization;
+        }
+
+    //Add a city
+    public void addCity(String city) {
+        if (!cities.contains(city)) {
+            cities.add(city);
+        } else {
+            System.out.println(city + " is already in the list of cities.");
+        }
+    }
+
+    // Add an offering
+    public void addOffering(Offering offering) {
+        offerings.add(offering);
+    }
+
+
+
+    // Method to view assigned offerings
+    public void viewAssignedOfferings() {
+        ArrayList<Offering> offerings = OfferingCatalog.getOfferingsByInstructorId(this.getInstructorId());
+        if (offerings.isEmpty()) {
+            System.out.println("No offerings assigned to this instructor.");
+        } else {
+            System.out.println("Offerings for Instructor: " + this.getName());
+            for (Offering offering : offerings) {
+                Lesson lesson = offering.getLesson();
+    
+                System.out.println("Activity: " + lesson.getActivity());
+                System.out.println("Date: " + lesson.getSchedule().getStartDate() + " - " + lesson.getSchedule().getEndDate() + " every " + lesson.getSchedule().getDay());
+                System.out.println("Time: " + lesson.getSchedule().getStartTime() + " - " + lesson.getSchedule().getEndTime());
+                System.out.println("Address: " + lesson.getSpace().getAddress() + ", " + lesson.getSpace().getCity() + ", " + lesson.getSpace().getType());
+                System.out.println("Lesson ID: " + lesson.getLessonId());
+                if (offering.getIsPublic()) {
+                    System.out.println("Lesson availability: public");
+                } else {
+                    System.out.println("Lesson availability: private");
+                }
+                int capacity = offering.getIsPublic() ? lesson.getSpace().getPersonLimit() : 1;
+                int remainingSpace = capacity - offering.getBookingAmount();
+                System.out.println("Available spaces: " + remainingSpace);
+                System.out.println("-------------------------");
             }
         }
     }
     
-
-    public void selectOffering(Offering offering) {
-        if (offering.getLesson().getActivity().equals(specialization)) {
-            selectedOfferings.add(offering);
-            offering.addInstructor(this); // Add this instructor to the offering
-            System.out.println(name + " has selected the offering: " + offering.getId());
-        } else {
-            System.out.println("Offering does not match instructor specialization.");
-        }
-    }
-
-    public void removeOffering(Offering offering) {
-        if (selectedOfferings.contains(offering)) {
-            selectedOfferings.remove(offering);
-            offering.removeInstructor(this); // Remove instructor from offering
-            System.out.println(name + " has been removed from the offering: " + offering.getId());
-        }
-    }
-
-    public void viewAssignedOfferings() {
-        System.out.println(name + "'s Assigned Offerings:");
-        for (Offering offering : selectedOfferings) {
-            System.out.println("ID: " + offering.getId() + ", Activity: " + offering.getLesson().getActivity() +
-                               ", Space: " + offering.getLesson().getSpace().getAddress() +
-                               ", Time: " + offering.getTimeslot().getStartTime() + " - " +
-                               offering.getTimeslot().getEndTime());
-        }
-    }
-
+    // Register availability
     public void registerAvailability(String city, String availabilityDetails) {
-        System.out.println(name + " has registered availability in " + city + ": " + availabilityDetails);
+        System.out.println(this.getName() + " has registered availability in " + city + ": " + availabilityDetails);
     }
 
-    @Override
-    public String toString() {
-        return "Instructor{" +
-                "name='" + name + '\'' +
-                ", specialization='" + specialization + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", organization=" + (organization != null ? organization.getName() : "None") +
-                ", assignedOfferings=" + assignedOfferings +
-                ", selectedOfferings=" + selectedOfferings +
-                '}';
-    }
+
 }

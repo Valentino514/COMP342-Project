@@ -1,90 +1,109 @@
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 class Lesson {
     private String activity;
-    private Timeslot timeslot;
-    private Space space;
-    private String id;
-    private boolean isPublic = false;
-    private List<Offering> offerings; // List of offerings that belong to this lesson
-    private List<Instructor> instructors;
+    private Schedule schedule;
+    protected Space space;
+    private String lessonId;
+    private List<Offering> offerings;
+    private boolean isOpen;
+    private static int idCounter = 1;
 
-    // Constructor
-    public Lesson(String activity, Timeslot timeslot, Space space, String id) {
+    // Constructor for lesson
+    public Lesson(String activity, Schedule schedule, Space space) {
         this.activity = activity;
-        this.timeslot = timeslot;
+        this.schedule = schedule;
         this.space = space;
-        this.id = id;
-        this.isPublic = false;
+        this.lessonId = generateUniqueId() ;
         this.offerings = new ArrayList<>();
-        this.instructors = new ArrayList<>();
+        this.isOpen = true;
     }
+
+    //Giving different ids
+    private static String generateUniqueId() {
+        return String.valueOf(idCounter++); 
+    }
+
+    //getters and setters
+    public String getActivity() {
+        return activity;
+    }
+
+
+    public void setActivity(String activity){
+        this.activity =activity;
+    }
+
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+
+    public void setSchedule(Schedule schedule){
+        this.schedule =schedule;
+    }
+
 
     public Space getSpace() {
         return space;
     }
 
-    public Timeslot getTimeslot() {
-        return timeslot;
+
+    public void setSpace(Space space){
+        this.space =space;
     }
 
-    public String getActivity() {
-        return activity;
+    public String getLessonId() {
+        return lessonId;
     }
 
-    public boolean getIsPublic() {
-        return isPublic;
+    public void setLessonId(String id){
+        this.lessonId =id;
     }
 
-    public String getId() {
-        return id;
+    //Returns the current open status of the lesson (isOpen means the instructors can select it)
+    public boolean getIsOpen(){
+        return isOpen;
     }
 
-    public void makeOfferingPublic() {
-        isPublic = true;
+    //Sets the open status of the lesson.
+    public void setIsOpen(boolean isOpen){
+        this.isOpen = isOpen;
     }
 
-    // Method to add an offering to this lesson (composition)
-    public void addOffering(Offering offering) {
-        offerings.add(offering);
+        //equals method to compare lessons
+        @Override
+        public boolean equals(Object obj) {
+        // Check if the object is the same as this instance
+        if (this == obj) {
+            return true;
+        }
+
+   
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Lesson other = (Lesson) obj;
+
+        return Objects.equals(activity, other.activity) &&
+               Objects.equals(schedule, other.schedule) &&
+               Objects.equals(space, other.space) &&
+               Objects.equals(lessonId, other.lessonId) &&
+               isOpen == other.isOpen;
     }
 
-    // Create a new offering for this lesson
-    public Offering createOffering(String offeringId, Date date, Timeslot timeslot, String status) {
-        Offering newOffering = new Offering(this, offeringId, date, timeslot, status);
-        addOffering(newOffering);
-        return newOffering;
+    //print info of lesson
+    public void printDetails() {
+        System.out.println("Activity: " + activity);
+        schedule.printSchedule(); 
+        System.out.println("  Address: " + space.getAddress());
+        System.out.println("  Type: " + space.getType());
+        System.out.println("  City: " + space.getCity());
+        System.out.println("Lesson ID: " + lessonId);
     }
 
-    public List<Offering> getOfferings() {
-        return offerings;
-    }
-
-    public List<Instructor> getInstructors() {
-        return instructors;
-    }
-
-    // Method to add an instructor to the offering
-    public void addInstructor(Instructor instructor) {
-        instructors.add(instructor);
-    }
-
-    // Method to remove an instructor from the offering
-    public void removeInstructor(Instructor instructor) {
-        instructors.remove(instructor);
-    }
-
-    @Override
-    public String toString() {
-        return "Lesson{" +
-                "activity='" + activity + '\'' +
-                ", timeslot=" + timeslot +
-                ", space=" + space +
-                ", id='" + id + '\'' +
-                ", isPublic=" + isPublic +
-                ", offerings=" + offerings +
-                '}';
-    }
 }

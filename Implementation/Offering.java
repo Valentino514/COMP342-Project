@@ -1,49 +1,80 @@
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
-class Offering {
-    private String id;
-    private Date date;
-    private Timeslot timeslot;
-    private Lesson lesson; // The Lesson this offering belongs to
-    private List<Client> clients;
-    private List<Instructor> instructors;
-    private String status;
+public class Offering {
+    private Lesson lesson;
+    private Instructor instructor;
+    private int bookingAmount;
+    private boolean isPublic;
+    private String offeringId;
+    private boolean isOpen;
+    private ArrayList<Client> clients;
 
-    // Constructor
-    public Offering(Lesson lesson, String id, Date date, Timeslot timeslot, String status) {
+    // Constructor for offerings
+    public Offering(Lesson lesson, Instructor instructor, boolean isPublic) {
         this.lesson = lesson;
-        this.id = id;
-        this.date = date;
-        this.timeslot = timeslot;
+        this.instructor = instructor;
+        this.isPublic = isPublic;
+        this.bookingAmount = 0;
+        this.isOpen = false;
         this.clients = new ArrayList<>();
-        this.instructors = new ArrayList<>();
-        this.status = status;
     }
 
-    // Getter methods
-    public String getId() {
-        return id;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public Timeslot getTimeslot() {
-        return timeslot;
-    }
-
+    //getters and setters
     public Lesson getLesson() {
-        return lesson; // This offering knows about the lesson it belongs to
+        return lesson;
     }
 
-    public String getStatus() {
-        return status;
+ 
+    public void setLesson(Lesson lesson) {
+        this.lesson = lesson;
     }
 
-    public List<Client> getClients() {
+    public Instructor getInstructor() {
+        return instructor;
+    }
+
+    public void setInstructor(Instructor instructor){
+        this.instructor = instructor;
+    }
+
+    // Getters and Setters for bookingAmount
+    public int getBookingAmount(){
+        return bookingAmount;
+    }
+
+    public void setBookingAmount(int amount){
+        this.bookingAmount = amount;
+    }
+
+    // Getters and Setters for isPublic
+    public boolean getIsPublic(){
+        return isPublic;
+    }
+
+    public void setIsPublic(boolean isPublic){
+        this.isPublic = isPublic;
+    }
+
+    // Getters and Setters for offeringId
+    public String getOfferingId(){
+        return offeringId;
+    }
+
+    public void setOfferingId(String offeringId){
+        this.offeringId = offeringId;
+    }
+
+
+    public boolean getIsOpen(){
+        return isOpen;
+    }
+
+    public void setIsOpen(boolean isOpen){
+        this.isOpen = isOpen;
+    }
+
+    // Getter for clients
+    public ArrayList<Client> getClients(){
         return clients;
     }
 
@@ -51,44 +82,18 @@ class Offering {
         return instructors;
     }
 
-    // Setter methods for updating booking status
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void addClient(Client client) {
-        if (!clients.contains(client)) {
+    //Adding a client to the offering
+    public boolean addClient(Client client) {
+        if ((getCapacity() > bookingAmount) && !clients.contains(client)) {
             clients.add(client);
-            client.addBooking(this); // Add this offering to the client's list
+            bookingAmount++;
+            return true;
+        } else {
+            return false;
         }
     }
-
-    // Method to assign an instructor to this offering
-    public void addInstructor(Instructor instructor) {
-        if (!instructors.contains(instructor)) {
-            instructors.add(instructor);
-            instructor.selectOffering(this); // Register this offering in the instructor's list
-        }
-    }
-
-    // Method to remove an instructor from this offering
-    public void removeInstructor(Instructor instructor) {
-        if (instructors.contains(instructor)) {
-            instructors.remove(instructor);
-            instructor.removeOffering(this); // Remove this offering from the instructor's list
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "Offering{" +
-                "id='" + id + '\'' +
-                ", date=" + date +
-                ", timeslot=" + timeslot +
-                ", lesson=" + lesson.getActivity() + " (" + lesson.getId() + ")" +
-                ", clients=" + clients +
-                ", instructors=" + instructors +
-                ", status='" + status + '\'' +
-                '}';
+    
+    public int getCapacity() {
+        return isPublic ? lesson.getSpace().getPersonLimit() : 1;
     }
 }
